@@ -10,11 +10,61 @@ assomakerApp.config(['stateHelperProvider', '$urlRouterProvider', function (stat
   });
 
   stateHelperProvider
+
+
     .state({
       name: 'welcome',
+      url: "/",
       template: 'welcome !',
       data: {
         requireLogin: false
       }
+    })
+    .state({
+      name: 'auth',
+      url: "/auth",
+      abstract: 'true',
+      template: '<ui-view/>',
+      data: {
+        requireLogin: false
+      },
+      children: [
+        {
+          name: 'authPhotographe',
+          url: "/photographe",
+          template: 'authPhotographe'
+        },
+        {
+          name: 'authAdmin',
+          url: '/bureau',
+          template: 'authAdmin'
+        }
+      ]
+    })
+    .state({
+      name: 'commander',
+      url: '/commander',
+      template: 'commander',
+      data: {
+        requireLogin: false
+      }
+    })
+    .state({
+      name: 'photographes',
+      url: '/photographes',
+      template: 'photographes !',
+      data: {
+        requireLogin: true
+      }
+    })
+    .state({
+      name: 'admin',
+      url: '/bureau',
+      template: 'admin',
+      data: {
+        requireLogin: true
+      }
     });
+
+
 }]);
