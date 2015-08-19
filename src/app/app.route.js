@@ -6,6 +6,7 @@ assomakerApp.config(['stateHelperProvider', '$urlRouterProvider', function (stat
   // see : https://github.com/angular-ui/ui-router/issues/600
   $urlRouterProvider.otherwise(function ($injector) {
     var $state = $injector.get("$state");
+    console.log("go to /");
     $state.go("welcome");
   });
 
@@ -32,12 +33,17 @@ assomakerApp.config(['stateHelperProvider', '$urlRouterProvider', function (stat
         {
           name: 'authPhotographe',
           url: "/photographe",
-          template: 'authPhotographe'
+          templateUrl: '/app/components/auth/loginPhotographer.html'
         },
         {
           name: 'authAdmin',
           url: '/bureau',
-          template: 'authAdmin'
+          templateUrl: '/app/components/auth/loginBureau.html'
+        },
+        {
+          name: 'authOrder',
+          url: '/commande',
+          templateUrl: '/app/components/auth/loginOrder.html'
         }
       ]
     })
