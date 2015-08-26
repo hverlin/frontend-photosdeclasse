@@ -1,0 +1,53 @@
+<div style="padding: 50px">
+    <div class="row">
+        <div class="col-md-8">
+            <h2 class="text-center">Listes de mes groupes</h2>
+            <table st-table="rowCollection" class="table">
+                <thead>
+                <tr>
+                    <th st-sort="firstName"># groupe</th>
+                    <th st-sort="lastName">Email Responsable</th>
+                    <th st-sort="birthDate">Téléphone Responsable</th>
+                    <th st-sort="balance">Etat</th>
+                    <th>Ajouter des photos</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in mygroups">
+                    <td>{{row.num}}</td>
+                    <td>{{row.email}}</td>
+                    <td>{{row.phone | date}}</td>
+                    <td>
+                        <select id="title" name="title">
+                            <option value="" selected>{{row.state}}</option>
+                            <option value="Mr">1</option>
+                            <option value="Miss">2</option>
+                        </select>
+                    </td>
+                    <td><a href="" class="btn btn-xs btn-primary">Ajouter des photos</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <h2 class="text-center">Groupes en attente</h2>
+            <table st-table="rowCollection" class="table">
+                <thead>
+                <tr>
+                    <th st-sort="firstName"># groupe</th>
+                    <th st-sort="lastName">Catégorie</th>
+                    <th st-sort="birthDate">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in othergroups">
+                    <td>{{row.num | uppercase}}</td>
+                    <td>{{row.categorie}}</td>
+                    <td><a href="" class="btn btn-xs btn-primary">Choisir</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

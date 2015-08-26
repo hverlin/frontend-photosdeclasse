@@ -45,6 +45,6 @@ function start(Restangular, $http, $state, Notification, $rootScope, $log) {
     }
   });
 
-  Notification.success("app running !");
+ // Notification.success("app running !");
 }
 

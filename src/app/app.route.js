@@ -16,7 +16,7 @@ photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHe
     .state({
       name: 'welcome',
       url: "/",
-      template: 'welcome !',
+      templateUrl: '/app/components/welcome/welcome.html',
       data: {
         requireLogin: false
       }
@@ -56,13 +56,20 @@ photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHe
       }
     })
     .state({
-      name: 'photographes',
-      url: '/photographes',
+      name: 'photographe',
+      url: '/photographe',
       template: '<ui-view/>',
+      abstract: 'true',
       data: {
         requireLogin: true
       },
       children: [
+        {
+          name: 'dashboard-photographe',
+          url: "/dash",
+          templateUrl: '/app/components/photographer/dashboard/dashboard.html',
+          controller: 'dashboardCtrl'
+        },
         {
           name: 'upload',
           url: "/upload",
@@ -75,6 +82,7 @@ photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHe
       name: 'admin',
       url: '/bureau',
       template: '<ui-view/>',
+      abstract: 'true',
       data: {
         requireLogin: true
       },
