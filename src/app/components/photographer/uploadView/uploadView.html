@@ -1,0 +1,95 @@
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-3">
+
+            <h3>Photos du groupe </h3>
+            <select id="title" name="title">
+                <option value="" selected>Numéro du groupe</option>
+
+                <option value="Mr">1</option>
+                <option value="Miss">2</option>
+                <option value="Mrs">3</option>
+                <option value="Ms">4</option>
+            </select>
+            <hr>
+
+            <div ng-show="uploader.isHTML5">
+                <!-- 3. nv-file-over uploader="link" over-class="className" -->
+                <div ng-repeat="photoNum in photoNumbers">
+                    <div nv-file-drop="" uploader="uploader" options="{ num: photoNum }">
+                        <div nv-file-over="" uploader="uploader" over-class="another-file-over-class"
+                             class="well my-drop-zone">
+                            Photo {{photoNum}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9" style="margin-bottom: 40px">
+            <h2>Upload des photos !</h2>
+
+            <p>Nombre de photos: {{ uploader.queue.length }}</p>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th width="50%">Nom</th>
+                    <th ng-show="uploader.isHTML5">Taille</th>
+                    <th ng-show="uploader.isHTML5">Progression</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in uploader.queue">
+                    <td>
+                        <strong>{{ item.file.name }}</strong>
+                        <!-- Image preview -->
+                        <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                    </td>
+                    <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                    <td ng-show="uploader.isHTML5">
+                        <div class="progress" style="margin-bottom: 0;">
+                            <div class="progress-bar" role="progressbar"
+                                 ng-style="{ 'width': item.progress + '%' }"></div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                        <span ng-show="item.isError"><i class="fa fa-exclamation-triangle"></i></span>
+                    </td>
+                    <td nowrap>
+                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                            Retirer
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div>
+                <div>
+                    Progression :
+                    <div class="progress" style="">
+                        <div class="progress-bar" role="progressbar"
+                             ng-style="{ 'width': uploader.progress + '%' }"></div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()"
+                        ng-disabled="!uploader.getNotUploadedItems().length">
+                    Envoyer !
+                </button>
+                <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()"
+                        ng-disabled="!uploader.queue.length">
+                    Tout retirer
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

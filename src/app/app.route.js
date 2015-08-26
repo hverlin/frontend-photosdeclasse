@@ -1,6 +1,6 @@
 "use strict";
 
-assomakerApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHelperProvider, $urlRouterProvider) {
+photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHelperProvider, $urlRouterProvider) {
 
   // This version of otherwise allow to redirect the user when he is not logged in
   // see : https://github.com/angular-ui/ui-router/issues/600
@@ -58,18 +58,34 @@ assomakerApp.config(['stateHelperProvider', '$urlRouterProvider', function (stat
     .state({
       name: 'photographes',
       url: '/photographes',
-      template: 'photographes !',
+      template: '<ui-view/>',
       data: {
         requireLogin: true
-      }
+      },
+      children: [
+        {
+          name: 'upload',
+          url: "/upload",
+          templateUrl: '/app/components/photographer/uploadView/uploadView.html',
+          controller: 'uploadCtrl'
+        }
+      ]
     })
     .state({
       name: 'admin',
       url: '/bureau',
-      template: 'admin',
+      template: '<ui-view/>',
       data: {
         requireLogin: true
-      }
+      },
+      children: [
+        {
+          name: 'mainClassList',
+          url: "/classes",
+          templateUrl: '/app/components/admin/mainViewClass.html',
+          controller: 'selectionCtrl'
+        }
+      ]
     });
 
 

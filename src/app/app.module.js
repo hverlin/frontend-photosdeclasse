@@ -1,13 +1,15 @@
 "use strict";
 
-var assomakerApp = angular.module('photosApp', [
+var photosApp = angular.module('photosApp', [
   'ui.router',
   'ui.router.stateHelper',
   'restangular',
   'ui.bootstrap',
   'angular-loading-bar',
   'ngAnimate',
+  'angularFileUpload',
   'ui-notification',
+  'smart-table',
   'photosApp.services'
 ])
 

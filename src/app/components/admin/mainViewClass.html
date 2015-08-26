@@ -1,0 +1,24 @@
+<div class="container">
+    <h1>Liste des classes</h1>
+    <hr>
+    <table st-table="rowCollection" class="table">
+        <thead>
+        <tr>
+            <th st-sort="firstName">first name</th>
+            <th st-sort="lastName">last name</th>
+            <th st-sort="birthDate">birth date</th>
+            <th st-sort="balance">balance</th>
+            <th>email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in rowCollection">
+            <td>{{row.firstName | uppercase}}</td>
+            <td>{{row.lastName}}</td>
+            <td>{{row.birthDate | date}}</td>
+            <td>{{row.balance | currency}}</td>
+            <td><a ng-href="mailto:{{row.email}}">email</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
