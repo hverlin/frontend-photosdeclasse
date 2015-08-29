@@ -1,7 +1,7 @@
 photosApp.controller('selectionCtrl', ['$scope', '$filter', function (scope, filter) {
-  scope.rowCollection = [
-    {firstName: 'Laurent', lastName: 'Renard', birthDate: new Date('1987-05-21'), balance: 102, email: 'whatever@gmail.com'},
-    {firstName: 'Blandine', lastName: 'Faivre', birthDate: new Date('1987-04-25'), balance: -2323.22, email: 'oufblandou@gmail.com'},
-    {firstName: 'Francoise', lastName: 'Frere', birthDate: new Date('1955-08-27'), balance: 42343, email: 'raymondef@gmail.com'}
+  scope.mygroups = [
+    {num: '10', email: 'a@baca.insa-lyon.fr', phone: '06 54 83 41 02', photographer: "zozo", state: 'prise de photo'},
+    {num: '11', email: 'a@baca.insa-lyon.fr', phone: '06 54 83 41 02', photographer: "zozo", state: 'photo envoyée'},
+    {num: '12', email: 'a@baca.insa-lyon.fr', phone: '06 54 83 41 02', photographer: "zozo", state: 'prise de photo'}
   ];
 }]);

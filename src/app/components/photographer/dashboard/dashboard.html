@@ -1,6 +1,6 @@
 <div style="padding: 50px">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <h2 class="text-center">Listes de mes groupes</h2>
             <table st-table="rowCollection" class="table">
                 <thead>
@@ -24,12 +24,12 @@
                             <option value="Miss">2</option>
                         </select>
                     </td>
-                    <td><a href="" class="btn btn-xs btn-primary">Ajouter des photos</a></td>
+                    <td><a class="btn btn-xs btn-primary" ui-sref="photographe.upload({ num: row.num })" >Ajouter des photos</a></td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="col-md-4">
+    <div class="col-md-4 col-md-offset-2">
             <h2 class="text-center">Groupes en attente</h2>
             <table st-table="rowCollection" class="table">
                 <thead>

@@ -1,24 +1,73 @@
 <div class="container">
     <h1>Liste des classes</h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Ajouter une classe</label>
+
+                <div class="input-group">
+                    <input type="text" class="form-control">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="button">Ajouter</button>
+            </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Options</label>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button">Voir les commandes</button>
+                        <button class="btn btn-default" type="button">Envoyer un Email</button>
+                        <button class="btn btn-default" type="button">Télécharger les photos</button>
+                        <div class="btn-group" style="margin-left: 4px">
+                            <a href="" class="btn btn-default disabled">Etat</a>
+                            <a href="" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="">Action</a></li>
+                                <li><a href="">Another action</a></li>
+                                <li><a href="">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="">Separated link</a></li>
+                            </ul>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <hr>
     <table st-table="rowCollection" class="table">
         <thead>
         <tr>
-            <th st-sort="firstName">first name</th>
-            <th st-sort="lastName">last name</th>
-            <th st-sort="birthDate">birth date</th>
-            <th st-sort="balance">balance</th>
-            <th>email</th>
+            <th st-sort="firstName"># groupe</th>
+            <th st-sort="lastName">Email Responsable</th>
+            <th st-sort="birthDate">Téléphone Responsable</th>
+            <th st-sort="birthDate">Photographe</th>
+            <th st-sort="balance">Etat</th>
+            <th>Commentaire</th>
         </tr>
         </thead>
         <tbody>
-        <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in rowCollection">
-            <td>{{row.firstName | uppercase}}</td>
-            <td>{{row.lastName}}</td>
-            <td>{{row.birthDate | date}}</td>
-            <td>{{row.balance | currency}}</td>
-            <td><a ng-href="mailto:{{row.email}}">email</a></td>
+        <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in mygroups">
+            <td>{{row.num}}</td>
+            <td>{{row.email}}</td>
+            <td>{{row.phone}}</td>
+            <td>{{row.photographer}}</td>
+            <td>
+                <select id="title" name="title">
+                    <option value="" selected>{{row.state}}</option>
+                    <option value="Mr">1</option>
+                    <option value="Miss">2</option>
+                </select>
+            </td>
+            <td><input class="form-control" id="focusedInput" type="text" placeholder="Commentaire..."></td>
         </tr>
         </tbody>
     </table>
+
 </div>

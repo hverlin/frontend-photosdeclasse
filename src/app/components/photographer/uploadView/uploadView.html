@@ -1,20 +1,15 @@
 <div class="container">
 
     <div class="row">
-
+        <h2><a ui-sref="photographe.dashboard" class="btn btn-info"><i class="fa fa-chevron-left"></i></a>
+            Upload des photos - Groupe </h2>
+        <hr>
         <div class="col-md-3">
-
-            <h3>Photos du groupe </h3>
-
-            <hr>
-
             <div ng-show="uploader.isHTML5">
-                <!-- 3. nv-file-over uploader="link" over-class="className" -->
                 <div ng-repeat="photoNum in photoNumbers">
                     <div nv-file-drop="" uploader="uploader" options="{ num: photoNum }">
                         <div nv-file-over="" uploader="uploader" over-class="another-file-over-class"
-                             class="well my-drop-zone">
-                            Photo {{photoNum}}
+                             class="well my-drop-zone"> Photo {{photoNum}}
                         </div>
                     </div>
                 </div>
@@ -22,14 +17,27 @@
         </div>
 
         <div class="col-md-9" style="margin-bottom: 40px">
-            <h2>Upload des photos !</h2>
-
-            <p>Nombre de photos: {{ uploader.queue.length }}</p>
-
+                <div>Nombre de photos : {{ uploader.queue.length }} |
+                    Progression :
+                    <div class="progress" style="">
+                        <div class="progress-bar" role="progressbar"
+                             ng-style="{ 'width': uploader.progress + '%' }"></div>
+                    </div>
+                    <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()"
+                            ng-disabled="!uploader.getNotUploadedItems().length">
+                        Envoyer !
+                    </button>
+                    <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()"
+                            ng-disabled="!uploader.queue.length">
+                        Tout retirer
+                    </button>
+                </div>
+            <hr>
             <table class="table">
                 <thead>
                 <tr>
-                    <th width="50%">Nom</th>
+                    <th width="30%">N° Photo</th>
+                    <th>Nom</th>
                     <th ng-show="uploader.isHTML5">Taille</th>
                     <th ng-show="uploader.isHTML5">Progression</th>
                     <th>Status</th>
@@ -38,6 +46,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in uploader.queue">
+                    <td>{{ item.file.formData.number }}</td>
                     <td>
                         <strong>{{ item.file.name }}</strong>
                         <!-- Image preview -->
@@ -63,23 +72,6 @@
                 </tbody>
             </table>
 
-            <div>
-                <div>
-                    Progression :
-                    <div class="progress" style="">
-                        <div class="progress-bar" role="progressbar"
-                             ng-style="{ 'width': uploader.progress + '%' }"></div>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()"
-                        ng-disabled="!uploader.getNotUploadedItems().length">
-                    Envoyer !
-                </button>
-                <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()"
-                        ng-disabled="!uploader.queue.length">
-                    Tout retirer
-                </button>
-            </div>
 
         </div>
 
