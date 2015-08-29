@@ -28,10 +28,10 @@
                             <a href="" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
                                     class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li ng-repeat="st in states" ><a href="">{{st}}</a></li>
+                                <li ng-repeat="st in states"><a href="">{{st}}</a></li>
                             </ul>
                         </div>
-                         <button class="btn btn-danger" type="button">Supprimer le groupe</button>
+                         <button class="btn btn-danger" type="button">Supprimer</button>
 
                     </span>
                 </div>
@@ -42,10 +42,12 @@
 
 
     <!--Main TABLE-->
-    <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped table-hover">
+    <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped table-hover" >
         <thead>
+
         <tr>
-            <th st-sort="firstName"># groupe</th>
+            <th><input type="checkbox" value="all"></th>
+            <th st-sort="number" st-sort-default="true"># groupe</th>
             <th st-sort="lastName">Email Responsable</th>
             <th st-sort="birthDate">Téléphone Responsable</th>
             <th st-sort="birthDate">Photographe</th>
@@ -54,7 +56,18 @@
         </tr>
         </thead>
         <tbody>
+        <tr>
+            <td></td>
+            <td><input st-search="number" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
+            <td><input st-search="email" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
+            <td><input st-search="phone" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
+            <td><input st-search="photographer" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
+            <td><input st-search="state" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
+            <td><input st-search="" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
+
+        </tr>
         <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in displayedCollection">
+            <td><input type="checkbox"></td>
             <td>{{row.number}}</td>
             <td>{{row.email}}</td>
             <td>{{row.phone}}</td>
@@ -62,7 +75,7 @@
             <td>
                 <select id="title" name="title">
                     <option value="" selected>{{row.state}}</option>
-                    <option ng-repeat="st in states" value=st >{{st}}</option>
+                    <option ng-repeat="st in states" value=st>{{st}}</option>
                 </select>
             </td>
             <td></td>
