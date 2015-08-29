@@ -21,10 +21,10 @@ var photosApp = angular.module('photosApp', [
 
 function start(Restangular, $http, $state, Notification, $rootScope, $log) {
 
-  Restangular.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
-    // log every response from the server in debug (filter )
-    $log.debug(data);
-  });
+  //Restangular.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
+  //  // log every response from the server in debug (filter )
+  //  $log.debug(data);
+  //});
 
 
   Restangular.setErrorInterceptor(

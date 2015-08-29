@@ -1,6 +1,6 @@
 var config = {
   name : "Photos de classe",
   api: {
-    url: "http://localhost:1337"
+    url: "https://backend-graines-hverlin.c9.io/v1"
   }
 };
