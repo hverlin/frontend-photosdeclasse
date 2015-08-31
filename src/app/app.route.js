@@ -43,6 +43,7 @@ photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHe
         {
           name: 'authOrder',
           url: '/commande',
+          controller: 'loginOrderCtrl',
           templateUrl: '/app/components/auth/loginOrder.html'
         }
       ]
