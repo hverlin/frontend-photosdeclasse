@@ -5,8 +5,8 @@ function manageGroup(Restangular, $log, $q) {
 
   self.addGroup = function (groupNumber) {
     return $q(function (resolve, reject) {
-      Restangular.all('/classe').customPOST({number: groupNumber}).then(function () {
-        self.getGroups().then(function(data) {
+      Restangular.all('/classe').customPOST({num: groupNumber}).then(function () {
+        self.getGroups().then(function (data) {
           $log.info('add group ' + groupNumber);
           resolve(data);
         });
@@ -45,6 +45,17 @@ function manageGroup(Restangular, $log, $q) {
       Restangular.one('/classe/orders/').get()
         .then(function (data) {
           resolve(data.plain());
+        }, function () {
+          reject('Erreur de connexion !');
+        })
+    })
+  };
+
+  self.deleteGroups = function (num) {
+    return $q(function (resolve, reject) {
+      Restangular.one('/classe/' + num + '/').remove()
+        .then(function () {
+          resolve('deleted');
         }, function () {
           reject('Erreur de connexion !');
         })

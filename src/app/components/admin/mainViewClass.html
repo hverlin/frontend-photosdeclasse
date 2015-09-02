@@ -37,7 +37,7 @@
                                 <li ng-repeat="st in states"><a href="">{{st}}</a></li>
                             </ul>
                         </div>
-                         <button class="btn btn-danger" type="button">Supprimer</button>
+                         <button class="btn btn-danger" type="button" ng-click="deleteGroups()">Supprimer</button>
                 </span>
                 </div>
             </div>
@@ -56,7 +56,7 @@
 
         <tr>
             <th><input type="checkbox" value="all"></th>
-            <th st-sort="number" st-sort-default="true"># groupe</th>
+            <th st-sort="num" st-sort-default="true"># groupe</th>
             <th st-sort="lastName">Email Responsable</th>
             <th st-sort="birthDate">Téléphone Responsable</th>
             <th st-sort="birthDate">Photographe</th>
@@ -65,7 +65,7 @@
         </tr>
         <tr>
             <td></td>
-            <td><input st-search="number" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
+            <td><input st-search="num" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
             <td><input st-search="email" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
             <td><input st-search="phone" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
             <td><input st-search="photographer" st-delay="0" placeholder="" class="input-sm form-control"
@@ -77,9 +77,9 @@
 
         <tbody>
 
-        <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in displayedCollection">
+        <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in displayedCollection track by row.num" ng-click="onRowSelected(row)" >
             <td><input type="checkbox"></td>
-            <td>{{row.number}}</td>
+            <td>{{row.num}}</td>
             <td>{{row.email}}</td>
             <td>{{row.phone}}</td>
             <td>{{row.photographer}}</td>
@@ -128,7 +128,7 @@
 
         <tbody>
 
-        <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in displayedOrderCollection">
+        <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in displayedOrderCollection track by row.num" ng-click="onRowSelected(row)">
             <td><input type="checkbox"></td>
             <td>{{row.num}}</td>
             <td>{{row.photo_1}}</td>
