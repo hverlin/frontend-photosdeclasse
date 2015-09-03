@@ -11,7 +11,7 @@
             <div class="input-group formCustomer">
                 <span class="input-group-addon">Groupe</span>
                 <select required class="form-control" id="select" ng-model="groupNumber">
-                    <option ng-repeat="grp in groups | orderBy:'number' " value="{{grp.number}}">{{grp.number}}</option>
+                    <option ng-repeat="grp in groups | orderBy:'num' " value="{{grp.num}}">{{grp.num}}</option>
                 </select>
             </div>
 

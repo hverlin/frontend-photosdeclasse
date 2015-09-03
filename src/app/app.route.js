@@ -2,16 +2,7 @@
 
 photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHelperProvider, $urlRouterProvider) {
 
-  // This version of otherwise allow to redirect the user when he is not logged in
-  // see : https://github.com/angular-ui/ui-router/issues/600
-  $urlRouterProvider.otherwise(function ($injector) {
-    var $state = $injector.get("$state");
-    console.log("go to /");
-    $state.go("welcome");
-  });
-
   stateHelperProvider
-
 
     .state({
       name: 'welcome',
@@ -38,7 +29,8 @@ photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHe
         {
           name: 'authAdmin',
           url: '/bureau',
-          templateUrl: '/app/components/auth/loginBureau.html'
+          templateUrl: '/app/components/auth/loginBureau.html',
+          controller: 'loginBureauCtrl'
         },
         {
           name: 'authOrder',
@@ -104,6 +96,16 @@ photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHe
           controller: 'selectionCtrl'
         }
       ]
+    })
+    .state({
+      name: 'otherwise',
+      url: "*path",
+      template: "",
+      controller: [
+        '$state',
+        function($state) {
+          $state.go('welcome')
+        }]
     });
 
 

@@ -17,14 +17,26 @@ var photosApp = angular.module('photosApp', [
     RestangularProvider.setBaseUrl(config.api.url);
   }])
 
-  .run(['Restangular', '$http', '$state', 'Notification', '$rootScope', '$log', start]);
+  .run(['Restangular', '$http', '$state', 'Notification', '$rootScope', '$log', 'AuthService', '$timeout', start]);
 
-function start(Restangular, $http, $state, Notification, $rootScope, $log) {
+function start(Restangular, $http, $state, Notification, $rootScope, $log, AuthService, $timeout) {
 
-  //Restangular.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
-  //  // log every response from the server in debug (filter )
-  //  $log.debug(data);
-  //});
+  if (AuthService.isAuthed()) {
+    $http.defaults.headers.common.Authorization = 'Bearer ' + AuthService.getToken();
+  }
+
+  Restangular.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
+    // log every response from the server in debug (filter )
+    console.debug(data);
+
+    // if there a token is received, attach it to the current session
+    if (data.data && data.data.token) {
+      Notification(JSON.stringify(AuthService.parseJwt(data.data.token)));
+      $http.defaults.headers.common.Authorization = 'Bearer ' + data.data.token;
+      AuthService.saveToken(data.data.token);
+    }
+    return data;
+  });
 
 
   Restangular.setErrorInterceptor(
@@ -38,13 +50,23 @@ function start(Restangular, $http, $state, Notification, $rootScope, $log) {
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
     var requireLogin = toState.data.requireLogin;
 
-    // TODO : ADD redirection
-    if (requireLogin) {
-      // event.preventDefault();
+    if (requireLogin && !AuthService.isAuthed()) {
+      event.preventDefault();
       Notification.error("Merci de vous authentifier");
+      $state.go("guest.login");
     }
+
+    if (AuthService.isAuthed() && requireLogin) {
+      Notification.primary("Authentifié !");
+    }
+
+    if (toState.name == 'auth.authAdmin' && AuthService.isAuthed()) {
+      $timeout(function() {
+        $state.transitionTo("admin.mainClassList")
+      },10)
+    }
+
   });
 
- // Notification.success("app running !");
 }
 
