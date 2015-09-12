@@ -13,7 +13,7 @@ var paths = {
   lessFiles: './src/assets/less/**.less',
   html: ['./src/**/*.html'],
   img: ['./src/assets/img/**/*'],
-  scripts: ['./src/app/app.config.js', './src/app/app.service.js', './src/app/app.module.js', './src/app/*.*.js', './src/app/**/*.js'],
+  scripts: ['./src/app/app.config.js', './src/app/app.service.js', './src/app/app.module.js', './src/app/shared/services/*.js', './src/app/*.*.js', './src/app/**/*.js'],
   distProd: './dist',
   distScriptsProd: './dist/scripts'
 };

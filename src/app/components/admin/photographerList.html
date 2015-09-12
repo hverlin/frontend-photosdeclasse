@@ -1,0 +1,65 @@
+<div class="container">
+
+    <h1>Liste des photographes
+        <button style="float: right;margin-left: 5px" class="btn btn-default" ng-click="openSettings()" type="button">
+            Paramètres
+        </button>
+        <button style="float: right;" class="btn btn-default" type="button" ui-sref="admin.mainClassList">Classes
+        </button>
+
+    </h1>
+
+    <hr>
+
+    <!--Top BUTTONS-->
+    <div class="row">
+        <div class="col-md-3">
+            <form ng-submit="addPhotographer()" class="form-group">
+                <div class="input-group">
+                    <input ng-model="newPhotographer" type="email" id="newPhotographer" class="form-control">
+                    <span class="input-group-btn">
+                         <button class="btn btn-primary" type="submit">Ajouter</button>
+                    </span>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-danger" type="button" ng-click="deleteGroups()">
+                Supprimer
+            </button>
+        </div>
+    </div>
+
+
+    <!--end BUTTONS-->
+
+
+    <!--Main TABLE Photographer-->
+    <table ng-hide="orderView" st-table="displayedCollection" st-safe-src="rowCollection"
+           class="table table-striped table-hover table-condensed">
+        <thead>
+
+        <tr>
+            <th><input type="checkbox" value="all"></th>
+            <th st-sort="email" st-sort-default="true">Email</th>
+            <th st-sort="state">Etat</th>
+        </tr>
+        <tr>
+            <td><i class="fa fa-search fa-2x"></i></td>
+            <td><input st-search="email" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
+            <td><input st-search="email" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr ng-repeat="row in displayedCollection track by row.email">
+            <td cs-select="row"></td>
+            <td>{{row.email}}</td>
+            <td>{{row.email}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</div>

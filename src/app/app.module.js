@@ -30,10 +30,10 @@ function start(Restangular, $http, $state, Notification, $rootScope, $log, AuthS
     console.debug(data);
 
     // if there a token is received, attach it to the current session
-    if (data.data && data.data.token) {
-      Notification(JSON.stringify(AuthService.parseJwt(data.data.token)));
-      $http.defaults.headers.common.Authorization = 'Bearer ' + data.data.token;
-      AuthService.saveToken(data.data.token);
+    if (data && data.token) {
+      Notification(JSON.stringify(AuthService.parseJwt(data.token)));
+      $http.defaults.headers.common.Authorization = 'Bearer ' + data.token;
+      AuthService.saveToken(data.token);
     }
     return data;
   });
@@ -56,9 +56,9 @@ function start(Restangular, $http, $state, Notification, $rootScope, $log, AuthS
       $state.go("guest.login");
     }
 
-    if (AuthService.isAuthed() && requireLogin) {
-      Notification.primary("Authentifié !");
-    }
+    //if (AuthService.isAuthed() && requireLogin) {
+    //  Notification.primary("Authentifié !");
+    //}
 
     if (toState.name == 'auth.authAdmin' && AuthService.isAuthed()) {
       $timeout(function() {

@@ -94,6 +94,12 @@ photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHe
           url: "/classes",
           templateUrl: '/app/components/admin/mainViewClass.html',
           controller: 'selectionCtrl'
+        },
+        {
+          name: 'photographers',
+          url: "/photographes",
+          templateUrl: '/app/components/admin/photographerList.html',
+          controller: 'photographerListCtrl'
         }
       ]
     })

@@ -17,8 +17,6 @@ function manageGroup(Restangular, $log, $q) {
   };
 
   self.getGroups = function () {
-    console.log("ici");
-
     return $q(function (resolve, reject) {
       Restangular.one('/classe/all/').getList()
         .then(function (data) {
@@ -29,16 +27,6 @@ function manageGroup(Restangular, $log, $q) {
     })
   };
 
-  self.getGroups = function () {
-    return $q(function (resolve, reject) {
-      Restangular.one('/classe/').get()
-        .then(function (data) {
-          resolve(data.plain().data);
-        }, function () {
-          reject('Erreur de connexion !');
-        })
-    })
-  };
 
   self.getOrders = function () {
     return $q(function (resolve, reject) {

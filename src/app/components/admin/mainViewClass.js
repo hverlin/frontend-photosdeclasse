@@ -1,93 +1,109 @@
-photosApp.controller('selectionCtrl', ['$scope', 'groupService', '$filter', function ($scope, groupService, $filter) {
-  var self = this;
+photosApp.controller('selectionCtrl', ['$scope', 'groupService', '$filter', 'modalService', '$log',
+  function ($scope, groupService, $filter, modalService, $log) {
 
-  $scope.groupService = groupService;
+    $scope.groupService = groupService;
 
-  $scope.newGrpNumber = null;
+    $scope.newGrpNumber = null;
 
-  $scope.orderView = false;
+    $scope.orderView = false;
 
-  $scope.rowSelected = [];
+    $scope.rowSelected = [];
 
-  $scope.groupService.getGroups().then(function (data) {
-    $scope.rowCollection = data;
-  });
-
-  $scope.groupService.getOrders().then(function (data) {
-    $scope.rowOrderCollection = data;
-  });
-
-  $scope.displayedCollection = [].concat($scope.rowCollection);
-  $scope.displayedOrderCollection = [].concat($scope.rowOrderCollection);
-
-  $scope.addGrp = function () {
-    $scope.groupService.addGroup($scope.newGrpNumber).then(function (data) {
+    groupService.getGroups().then(function (data) {
       $scope.rowCollection = data;
-
-      $scope.groupService.getOrders().then(function (data) {
-        $scope.rowOrderCollection = data;
-      });
-
     });
-    $scope.newGrpNumber = '';
-  };
 
-  $scope.computeTotal = function () {
-    if (!$scope.rowOrderCollection) return;
-    var total = 0;
+    groupService.getOrders().then(function (data) {
+      $scope.rowOrderCollection = data;
+    });
 
-    for (var i = 0; i < $scope.rowOrderCollection.length; i++) {
-      for (var j = 0; j < $scope.rowOrderCollection[i].length; j++) {
-        total += $scope.rowOrderCollection[i][j];
-      }
-    }
+    $scope.displayedCollection = [].concat($scope.rowCollection);
+    $scope.displayedOrderCollection = [].concat($scope.rowOrderCollection);
 
-    return total;
-  };
+    $scope.addGrp = function () {
+      $scope.groupService.addGroup($scope.newGrpNumber).then(function (data) {
+        $scope.rowCollection = data;
 
-  $scope.onRowSelected = function (row) {
+        $scope.groupService.getOrders().then(function (data) {
+          $scope.rowOrderCollection = data;
+        });
 
-    if (row.isSelected) {
-      console.log(row)
-      $scope.rowSelected.push(row);
-    } else {
-      _.remove($scope.rowSelected, function (element) {
-        return element.num === row.num;
-      })
-    }
-  };
-
-  $scope.deleteGroups = function () {
-    var cpt =  $scope.rowSelected.length;
-    for (var i = 0; i < $scope.rowSelected.length; i++) {
-      $scope.groupService.deleteGroups($scope.rowSelected[i].num).then(function(){
-        cpt--;
-        if(cpt === 0) {
-          $scope.groupService.getGroups().then(function (data) {
-            $scope.rowCollection = data;
-          });
-          $scope.groupService.getOrders().then(function (data) {
-            $scope.rowOrderCollection = data;
-            $scope.rowSelected.length = 0;
-          });
-        }
       });
-    }
+      $scope.newGrpNumber = '';
+    };
 
-  };
+    $scope.computeTotal = function () {
+      if (!$scope.rowOrderCollection) return;
+      var total = 0;
 
-  $scope.states = [
-    "Pas de photographe",
-    "commande en cours",
-    "commande terminée"
-  ]
+      for (var i = 0; i < $scope.rowOrderCollection.length; i++) {
+        for (var j = 0; j < $scope.rowOrderCollection[i].length; j++) {
+          total += $scope.rowOrderCollection[i][j];
+        }
+      }
+      return total;
+    };
 
-}]);
+    $scope.onRowSelected = function (num) {
+      var removed = false;
+      for(var i = 0; i < $scope.rowSelected.length; i++) {
+        if ($scope.rowSelected[i] === num) {
+          _.pull($scope.rowSelected, num);
+          removed = true;
+          break;
+        }
+      }
+
+      if(!removed) {
+        $scope.rowSelected.push(num);
+      }
+      console.log($scope.rowSelected);
+
+    };
+
+    $scope.deleteGroups = function () {
+      var cpt = $scope.rowSelected.length;
+      for (var i = 0; i < $scope.rowSelected.length; i++) {
+        $scope.groupService.deleteGroups($scope.rowSelected[i]).then(function () {
+          cpt--;
+          if (cpt === 0) {
+            $scope.groupService.getGroups().then(function (data) {
+              $scope.rowCollection = data;
+            });
+            $scope.groupService.getOrders().then(function (data) {
+              $scope.rowOrderCollection = data;
+              $scope.rowSelected.length = 0;
+            });
+          }
+        });
+      }
+    };
+
+    $scope.openSettings = function () {
+
+      var modalOptions = {
+        closeButtonText: 'Cancel',
+        headerText: 'Paramètres'
+      };
+
+      modalService.showModal({}, modalOptions)
+        .then(function (result) {
+        });
+    };
+
+    $scope.states = [
+      "Pas de photographe",
+      "commande en cours",
+      "commande terminée"
+    ];
+
+  }]);
+
 
 photosApp.directive('csSelect', function () {
   return {
     require: '^stTable',
-    template: '<input type="checkbox"/>',
+    template: '<input type="checkbox" ng-click="onRowSelected(row.num)"/>',
     scope: {
       row: '=csSelect'
     },
@@ -109,3 +125,54 @@ photosApp.directive('csSelect', function () {
     }
   };
 });
+
+photosApp.service('modalService', ['$modal',
+  function ($modal) {
+
+    var modalDefaults = {
+      backdrop: true,
+      keyboard: true,
+      modalFade: true,
+      templateUrl: '/app/components/admin/modalSettings.html'
+    };
+
+    var modalOptions = {
+      closeButtonText: 'Close',
+      actionButtonText: 'OK',
+      headerText: 'Proceed?',
+      bodyText: 'Perform this action?'
+    };
+
+    this.showModal = function (customModalDefaults, customModalOptions) {
+      if (!customModalDefaults) customModalDefaults = {};
+      customModalDefaults.backdrop = 'static';
+      return this.show(customModalDefaults, customModalOptions);
+    };
+
+    this.show = function (customModalDefaults, customModalOptions) {
+      //Create temp objects to work with since we're in a singleton service
+      var tempModalDefaults = {};
+      var tempModalOptions = {};
+
+      //Map angular-ui modal custom defaults to modal defaults defined in service
+      angular.extend(tempModalDefaults, modalDefaults, customModalDefaults);
+
+      //Map modal.html $scope custom properties to defaults defined in service
+      angular.extend(tempModalOptions, modalOptions, customModalOptions);
+
+      if (!tempModalDefaults.controller) {
+        tempModalDefaults.controller = function ($scope, $modalInstance) {
+          $scope.modalOptions = tempModalOptions;
+          $scope.modalOptions.ok = function (result) {
+            $modalInstance.close(result);
+          };
+          $scope.modalOptions.close = function (result) {
+            $modalInstance.dismiss('cancel');
+          };
+        }
+      }
+
+      return $modal.open(tempModalDefaults).result;
+    };
+
+  }]);

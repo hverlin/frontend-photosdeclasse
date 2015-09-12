@@ -1,5 +1,10 @@
 <div class="container">
-    <h1>Liste des classes</h1>
+
+    <h1>Liste des classes
+        <button style="float: right;margin-left: 5px" class="btn btn-default" ng-click="openSettings()" type="button" >Paramètres</button>
+        <button style="float: right;" class="btn btn-default" type="button"  ui-sref="admin.photographers">Photographes</button>
+
+    </h1>
 
     <hr>
 
@@ -64,7 +69,7 @@
             <th>Commentaire</th>
         </tr>
         <tr>
-            <td></td>
+            <td><i class="fa fa-search fa-2x"></i></td>
             <td><input st-search="num" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
             <td><input st-search="email" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
             <td><input st-search="phone" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
@@ -78,14 +83,14 @@
         <tbody>
 
         <tr ng-repeat="row in displayedCollection track by row.num"  >
-            <td cs-select="row"  ng-click="onRowSelected(row)"></td>
+            <td cs-select="row" ></td>
             <td>{{row.num}}</td>
             <td>{{row.email}}</td>
             <td>{{row.phone}}</td>
-            <td>{{row.photographer}}</td>
+            <td style="text-transform: capitalize">{{row.photographer.email.split('.')[0]}}</td>
             <td>
                 <select id="title" name="title" style="color: black !important;" >
-                    <option value="" selected>{{row.state}}</option>
+                    <option value="" selected>{{row.status}}</option>
                     <option ng-repeat="st in states" value=st>{{st}}</option>
                 </select>
             </td>
@@ -112,7 +117,7 @@
             <th st-sort="photo_6">Total</th>
         </tr>
         <tr>
-            <td></td>
+            <td><i class="fa fa-search fa-2x"></i></td>
             <td><input st-search="num" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
             <td></td>
             <td></td>
@@ -129,7 +134,7 @@
         <tbody>
 
         <tr ng-repeat="row in displayedOrderCollection track by row.num">
-            <td cs-select="row"  ng-click="onRowSelected(row)"></td>
+            <td cs-select="row"  ></td>
             <td>{{row.num}}</td>
             <td>{{row.photo_1}}</td>
             <td>{{row.photo_2}}</td>
