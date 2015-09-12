@@ -9,6 +9,18 @@ photosApp.controller('photographerListCtrl', ['$scope', 'photographerService', '
     $scope.displayedCollection = [].concat($scope.rowCollection);
 
 
+    $scope.addPhotographer = function () {
+      photographerService.addPhotographer($scope.newPhotographer).then(function (data) {
+        $scope.rowCollection = data;
+
+        photographerService.getPhotographers().then(function (data) {
+          $scope.rowOrderCollection = data;
+        });
+
+      });
+      $scope.newPhotographer = '';
+    };
+
   }]);
 
 

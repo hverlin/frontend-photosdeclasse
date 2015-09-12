@@ -3,11 +3,11 @@ photosApp.service('photographerService', ['Restangular', '$log', '$q', managePho
 function managePhotographers(Restangular, $log, $q) {
   var self = this;
 
-  self.addPhotographer = function (groupNumber) {
+  self.addPhotographer = function (email) {
     return $q(function (resolve, reject) {
-      Restangular.all('/auth/addphtographer').customPOST({num: groupNumber}).then(function () {
+      Restangular.all('/auth/addphtographer').customPOST({email: email}).then(function () {
         self.getGroups().then(function (data) {
-          $log.info('add group ' + groupNumber);
+          $log.info('add group ' + email);
           resolve(data);
         });
       })
