@@ -4,9 +4,9 @@ photosApp.controller('loginPhotographerCtrl', ['$scope', '$state', '$filter', 'U
     $scope.UserService = UserService ;
 
     $scope.login = function () {
-      $scope.UserService.login( $scope.email, $scope.password)
+      $scope.UserService.login($scope.email, $scope.password)
         .then(function() {
-          $state.go("admin.mainClassList")
+          $state.go("admin.mainClassList");
         })
     };
 
