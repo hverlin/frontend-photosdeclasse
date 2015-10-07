@@ -5,7 +5,7 @@ function managePhotographers(Restangular, $log, $q) {
 
   self.addPhotographer = function (email) {
     return $q(function (resolve, reject) {
-      Restangular.all('/auth/addphtographer').customPOST({email: email}).then(function () {
+      Restangular.all('/auth/addphotographer').customPOST({email: email}).then(function () {
         self.getGroups().then(function (data) {
           $log.info('add group ' + email);
           resolve(data);
