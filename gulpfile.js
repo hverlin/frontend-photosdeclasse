@@ -129,8 +129,7 @@ gulp.task('serve', ['build-js-app'], function () {
       links: true,
       forms: true
     },
-    browser: ["google chrome"
-      //, "firefox"
+    browser: [ "firefox"
     ]
   });
 

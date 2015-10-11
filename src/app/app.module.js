@@ -43,6 +43,12 @@ function start(Restangular, $http, $state, Notification, $rootScope, $log, AuthS
     function (response) {
       // https://fr.wikipedia.org/wiki/Liste_des_codes_HTTP
       Notification.error("Erreur HTTP : " + response.status);
+
+
+      if(response.status == 401) {
+
+        AuthService.logout();
+      }
       return false;
     }
   );
@@ -53,7 +59,7 @@ function start(Restangular, $http, $state, Notification, $rootScope, $log, AuthS
     if (requireLogin && !AuthService.isAuthed()) {
       event.preventDefault();
       Notification.error("Merci de vous authentifier");
-      $state.go("guest.login");
+      $state.go("welcome");
     }
 
     //if (AuthService.isAuthed() && requireLogin) {

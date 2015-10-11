@@ -5,7 +5,7 @@
             <table st-table="rowCollection" class="table">
                 <thead>
                 <tr>
-                    <th st-sort="firstName"># groupe</th>
+                    <th st-sort="num" st-sort-default="true"># groupe</th>
                     <th st-sort="lastName">Email Responsable</th>
                     <th st-sort="birthDate">Téléphone Responsable</th>
                     <th st-sort="balance">Etat</th>
@@ -13,10 +13,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in mygroups">
+                <tr ng-repeat="row in displayedmygroups">
                     <td>{{row.num}}</td>
                     <td>{{row.email}}</td>
-                    <td>{{row.phone | date}}</td>
+                    <td>{{row.phone}}</td>
                     <td>
                         <select id="title" name="title">
                             <option value="" selected>{{row.state}}</option>
@@ -34,14 +34,14 @@
             <table st-table="rowCollection" class="table">
                 <thead>
                 <tr>
-                    <th st-sort="firstName"># groupe</th>
+                    <th st-sort="num" st-sort-default="true"># groupe</th>
                     <th st-sort="lastName">Catégorie</th>
                     <th st-sort="birthDate">Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in othergroups">
-                    <td>{{row.num | uppercase}}</td>
+                <tr ng-repeat="row in displayedothergroups">
+                    <td>{{row.num}}</td>
                     <td>{{row.categorie}}</td>
                     <td><a href="" class="btn btn-xs btn-primary">Choisir</a></td>
                 </tr>

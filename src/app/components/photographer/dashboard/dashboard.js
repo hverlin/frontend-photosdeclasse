@@ -1,15 +1,20 @@
-photosApp.controller('dashboardCtrl',  ['$scope', '$filter', function (scope, filter) {
-  scope.mygroups = [
-    {num: '10', email: 'a@baca.insa-lyon.fr', phone : '06 54 83 41 02', state: 'prise de photo'},
-    {num: '11', email: 'a@baca.insa-lyon.fr', phone : '06 54 83 41 02', state: 'photo envoyée'},
-    {num: '12', email: 'a@baca.insa-lyon.fr', phone : '06 54 83 41 02', state: 'prise de photo'}
-  ];
+photosApp.controller('dashboardCtrl',  ['$scope', '$filter', 'groupService',
+    function ($scope, filter, groupService) {
 
-  scope.othergroups = [
-    {num: '13', categorie: 'classique'},
-    {num: '14', categorie: 'classique'},
-    {num: '15', categorie: 'classique'},
-    {num: '17', categorie: 'classique'}
-  ];
+   $scope.groupService = groupService;
+
+    groupService.getGroups().then(function (data) {
+        $scope.mygroups = data;
+        console.log(data)
+        $scope.displayedmygroups = [].concat($scope.mygroups);
+
+    });
+
+    groupService.getGroups().then(function (data) {
+        $scope.othergroups = data;
+        console.log(data)
+        $scope.displayedothergroups = [].concat($scope.mygroups);
+
+    });
 
 }]);

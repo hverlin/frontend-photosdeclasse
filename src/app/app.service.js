@@ -83,6 +83,19 @@ appServices
         });
       };
 
+      self.changePassword = function (pass_id, password) {
+        return $q(function(resolve, reject) {Restangular.one("/auth/changepassword")
+            .customPUT({
+              "pass_id": pass_id,
+              "password": password
+            })
+            .then(function () {
+              resolve('changement du mot de passe réussi !');
+            }, function () {
+              reject('Erreur de connexion !');
+            });
+        });
+      };
 
         //self.register = function (username, email, password) {
       //  Restangular.one("/auth/signup")

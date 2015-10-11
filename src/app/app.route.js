@@ -24,7 +24,8 @@ photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHe
         {
           name: 'authPhotographe',
           url: "/photographe",
-          templateUrl: '/app/components/auth/loginPhotographer.html'
+          templateUrl: '/app/components/auth/loginPhotographer.html',
+          controller: 'loginPhotographerCtrl'
         },
         {
           name: 'authAdmin',
@@ -37,6 +38,12 @@ photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHe
           url: '/commande',
           controller: 'loginOrderCtrl',
           templateUrl: '/app/components/auth/loginOrder.html'
+        },
+        {
+          name: 'changePassword',
+          url: '/change-password/:param1',
+          controller: 'changePasswordCtrl',
+          templateUrl: '/app/components/auth/changePassword.html'
         }
       ]
     })
