@@ -6,15 +6,22 @@ photosApp.controller('dashboardCtrl',  ['$scope', '$filter', 'groupService',
     groupService.getGroups().then(function (data) {
         $scope.mygroups = data;
         console.log(data)
-        $scope.displayedmygroups = [].concat($scope.mygroups);
+        //$scope.displayedmygroups = [].concat($scope.mygroups);
 
     });
 
     groupService.getGroups().then(function (data) {
         $scope.othergroups = data;
         console.log(data)
-        $scope.displayedothergroups = [].concat($scope.mygroups);
-
+        $scope.displayedothergroups = [].concat($scope.othergroups);
     });
+
+        $scope.chooseGroup = function(num){
+           groupService.chooseGroup(num).then(function (){
+                   alert('ok');
+
+               }
+           );
+        }
 
 }]);

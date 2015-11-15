@@ -45,9 +45,21 @@ function manageGroup(Restangular, $log, $q) {
         .then(function () {
           resolve('deleted');
         }, function () {
-          reject('Erreur de connexion !');
+          reject('Erreur while deleted group !');
         })
     })
   };
+
+  self.chooseGroup = function (group) {
+      return $q(function (resolve, reject) {
+          Restangular.one('/photographer/addGroup/').customPOST({
+              "groupNum": group
+          }).then(function (){
+              resolve();
+          }, function () {
+              reject('error in choose group');
+          })
+      })
+  }
 
 }

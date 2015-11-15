@@ -61,6 +61,12 @@ photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHe
           url: "/order",
           templateUrl: '/app/components/customer/orderView.html',
           controller: 'orderCtrl'
+        },
+        {
+            name: 'orderCompleted',
+            url: '/orderCompleted',
+            templateUrl: '/app/components/customer/orderCompleted.html',
+            controller: 'orderCompletedCtrl'
         }
       ]
     })
