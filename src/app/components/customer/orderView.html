@@ -1,5 +1,18 @@
+
 <div class="container">
-    <div ng-repeat="ph in photos">
-        <img class="img-responsive" src="ph">
+    <h1 class="text-center">Sélectionne les photos que tu souhaites commander</h1>
+    <div class="row">
+        <div class="col-md-3" ng-repeat="ph in photos">
+            <img class="img-responsive" style="display:block;margin:auto" ng-src="http://e9.img.v4.skyrock.net/8489/81408489/pics/3053578957_1_3_2ZKuAof0.jpg">
+            <input type="number" style="display:block;margin:2px auto 20px auto;" >
+        </div>
     </div>
+    <div class="row">
+        <p>Nombre de photos choisies :</p>
+        <p>Pour un total de : </p>
+    </div>
+    <div class="row">
+        <a href="" class="btn btn-success">Valider</a>
+    </div>
+
 </div>
