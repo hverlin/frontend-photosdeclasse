@@ -19,11 +19,13 @@ photosApp.controller('photographerListCtrl', ['$scope', 'photographerService', '
         };
 
         $scope.removePhotographer = function (email) {
-            photographerService.removePhotographer(email)
-                .then(function (data) {
-                    $scope.rowCollection = data;
-                    $scope.rowOrderCollection = data;
-                });
+            if(confirm("supprimer photographe "+email+" ?")){
+                photographerService.removePhotographer(email)
+                    .then(function (data) {
+                        $scope.rowCollection = data;
+                        $scope.rowOrderCollection = data;
+                    });
+            }
         };
 
 
