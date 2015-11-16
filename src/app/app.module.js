@@ -15,6 +15,8 @@ var photosApp = angular.module('photosApp', [
 
   .config(['RestangularProvider', function (RestangularProvider) {
     RestangularProvider.setBaseUrl(config.api.url);
+    RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json'});
+
   }])
 
   .run(['Restangular', '$http', '$state', 'Notification', '$rootScope', '$log', 'AuthService', '$timeout', start]);
@@ -24,6 +26,7 @@ function start(Restangular, $http, $state, Notification, $rootScope, $log, AuthS
   if (AuthService.isAuthed()) {
     $http.defaults.headers.common.Authorization = 'Bearer ' + AuthService.getToken();
   }
+
 
   Restangular.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
     // log every response from the server in debug (filter )

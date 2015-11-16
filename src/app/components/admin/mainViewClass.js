@@ -58,7 +58,6 @@ photosApp.controller('selectionCtrl', ['$scope', 'groupService', '$filter', 'mod
         $scope.rowSelected.push(num);
       }
       console.log($scope.rowSelected);
-
     };
 
     $scope.deleteGroups = function () {

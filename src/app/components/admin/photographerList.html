@@ -6,7 +6,6 @@
         </button>
         <button style="float: right;" class="btn btn-default" type="button" ui-sref="admin.mainClassList">Classes
         </button>
-
     </h1>
 
     <hr>
@@ -23,11 +22,6 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-2">
-            <button class="btn btn-danger" type="button" ng-click="deleteGroups()">
-                Supprimer
-            </button>
-        </div>
     </div>
     <!--end BUTTONS-->
 
@@ -38,23 +32,23 @@
         <thead>
 
         <tr>
-            <th><input type="checkbox" value="all"></th>
+            <th></th>
             <th st-sort="email" st-sort-default="true">Email</th>
-            <th st-sort="state">Etat</th>
+            <th st-sort="state">Pass Expiration</th>
         </tr>
         <tr>
             <td><i class="fa fa-search fa-2x"></i></td>
             <td><input st-search="email" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
-            <td><input st-search="email" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
+            <td><input st-search="pass_expiration" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
         </tr>
         </thead>
 
         <tbody>
 
         <tr ng-repeat="row in displayedCollection track by row.email">
-            <td cs-select="row"></td>
+            <td><i ng-click="removePhotographer(row.email)" class="btn btn-sm btn-default fa fa-trash"></i></td>
             <td>{{row.email}}</td>
-            <td>{{row.email}}</td>
+            <td>{{row.pass_expiration}}</td>
         </tr>
         </tbody>
     </table>
