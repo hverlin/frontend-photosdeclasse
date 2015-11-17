@@ -87,7 +87,7 @@ photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHe
         },
         {
           name: 'upload',
-          url: "/upload",
+          url: "/upload?num",
           templateUrl: '/app/components/photographer/uploadView/uploadView.html',
           controller: 'uploadCtrl'
         }

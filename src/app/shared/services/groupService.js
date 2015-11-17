@@ -27,6 +27,28 @@ function manageGroup(Restangular, $log, $q) {
     })
   };
 
+    self.getMyGroups = function () {
+        return $q(function (resolve, reject) {
+            Restangular.one('/photographer/groups/').getList()
+                .then(function (data) {
+                    resolve(data.plain());
+                }, function () {
+                    reject('Erreur de connexion !');
+                })
+        })
+    };
+
+   self.getOtherGroups = function () {
+        return $q(function (resolve, reject) {
+            Restangular.one('/photographer/othergroups/').getList()
+                .then(function (data) {
+                    resolve(data.plain());
+                }, function () {
+                    reject('Erreur de connexion !');
+                })
+        })
+    };
+
 
   self.getOrders = function () {
     return $q(function (resolve, reject) {

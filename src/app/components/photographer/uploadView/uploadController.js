@@ -1,7 +1,8 @@
-photosApp.controller('uploadCtrl', function($scope, FileUploader) {
+photosApp.controller('uploadCtrl', function($scope, FileUploader, $stateParams) {
   $scope.uploader = new FileUploader();
+  $scope.group = $stateParams.num;
 
-  $scope.uploader.url = "https://backend-graines-hverlin.c9.io/v1/photo/";
+  $scope.uploader.url = "https://backend-graines-hverlin.c9.io/v1/photo?group="+$scope.group;
   $scope.uploader.queueLimit = 6;
 
   $scope.uploader.onAfterAddingFile =  function(item) {
