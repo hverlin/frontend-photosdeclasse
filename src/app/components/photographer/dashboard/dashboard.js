@@ -1,8 +1,8 @@
-photosApp.controller('dashboardCtrl',  ['$scope', '$filter', 'groupService',
-    function ($scope, filter, groupService) {
+photosApp.controller('dashboardCtrl',  ['$scope', '$filter', 'groupService', 'UserService',
+    function ($scope, filter, groupService, UserService) {
 
    $scope.groupService = groupService;
-
+    $scope.user = UserService.currentUser.email;
     groupService.getMyGroups().then(function (data) {
         $scope.mygroups = data;
         $scope.displayedmygroups = [].concat($scope.mygroups);

@@ -1,9 +1,11 @@
 
 <div class="container">
-    <h1 class="text-center">Sélectionne les photos que tu souhaites commander</h1>
+    <h2 class="text-center">Sélectionne les photos que tu souhaites commander</h2>
+    <hr>
     <div class="row">
         <div class="col-md-3" ng-repeat="ph in photos">
-            <img class="img-responsive" style="display:block;margin:auto" ng-src="http://e9.img.v4.skyrock.net/8489/81408489/pics/3053578957_1_3_2ZKuAof0.jpg">
+            <a href="https://backend-graines-hverlin.c9.io/v1/photo?grpnumber=19&number={{ph}}">
+                <img class="img-responsive" style="display:block;margin:auto" ng-src="https://backend-graines-hverlin.c9.io/v1/photo?grpnumber=19&number={{ph}}"></a>
             <input type="number" style="display:block;margin:2px auto 20px auto;" >
         </div>
     </div>

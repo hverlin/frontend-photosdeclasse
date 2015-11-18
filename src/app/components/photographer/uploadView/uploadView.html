@@ -4,6 +4,7 @@
         <h2><a ui-sref="photographe.dashboard" class="btn btn-info"><i class="fa fa-chevron-left"></i></a>
             Upload des photos - Groupe {{group}} </h2>
         <hr>
+
         <div class="col-md-3">
             <div ng-show="uploader.isHTML5">
                 <div ng-repeat="photoNum in photoNumbers">
@@ -75,6 +76,19 @@
 
         </div>
 
+
+    </div>
+    <div class="col-md-3">
+        <img class="img-responsive" ng-src="https://backend-graines-hverlin.c9.io/v1/photo?grpnumber={{group}}&number=0">
+    </div>
+    <div class="col-md-3">
+        <img class="img-responsive" ng-src="https://backend-graines-hverlin.c9.io/v1/photo?grpnumber={{group}}&number=1">
+    </div>
+    <div class="col-md-3">
+        <img class="img-responsive" ng-src="https://backend-graines-hverlin.c9.io/v1/photo?grpnumber={{group}}&number=2">
+    </div>
+    <div class="col-md-3">
+        <img class="img-responsive" ng-src="https://backend-graines-hverlin.c9.io/v1/photo?grpnumber={{group}}&number=3">
     </div>
 
 </div>
