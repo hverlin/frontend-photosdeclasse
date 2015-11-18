@@ -2,8 +2,19 @@
     <div class="wrapper">
         <form ng-submit="login()" name="Login_Form" class="form-signin">
             <h3 class="form-signin-heading">Accès Photographe</h3>
-            <input ng-model="email" type="email" class="form-control" name="email" placeholder="Email" required="" autofocus="" />
-            <input ng-model="password" type="password" class="form-control" name="Password" placeholder="Mot de passe" required />
+
+            <div class="input-group formCustomer">
+                <span style="color:white;background-color: #2196F3" class="input-group-addon">Email</span>
+                <input ng-model="email" type="email" class="form-control" name="email" placeholder="Email" required="" autofocus="" />
+
+            </div>
+
+            <div class="input-group formCustomer">
+                <span style="color:white;background-color: #2196F3" class="input-group-addon">Mot de passe</span>
+                <input ng-model="password" type="password" class="form-control" name="Password" placeholder="Mot de passe" required />
+
+            </div>
+
             <button class="btn btn-lg btn-primary btn-block"  type="submit" >Connexion</button>
         </form>
     </div>

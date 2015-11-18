@@ -5,12 +5,12 @@
 
             <div class="input-group formCustomer">
                 <input type="text" required ng-model="email" placeholder="prenom.nom" class="form-control" pattern="^[a-z\-]+\.[a-z\-]+">
-                <span class="input-group-addon">@insa-lyon.fr</span>
+                <span style="color:white;background-color: #2196F3" class="input-group-addon">@insa-lyon.fr</span>
             </div>
 
             <div class="input-group formCustomer">
-                <span class="input-group-addon">Groupe</span>
-                <select required class="form-control" id="select" ng-model="groupNumber">
+                <span style="color:white;background-color: #2196F3" class="input-group-addon">Groupe</span>
+                <select style="border: solid 1px lightgrey"required class="form-control" id="select" ng-model="groupNumber">
                     <option ng-repeat="grp in groups | orderBy:'num' " value="{{grp.num}}">{{grp.num}}</option>
                 </select>
             </div>

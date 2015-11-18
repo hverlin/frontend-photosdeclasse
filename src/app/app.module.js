@@ -15,7 +15,7 @@ var photosApp = angular.module('photosApp', [
 
   .config(['RestangularProvider', function (RestangularProvider) {
     RestangularProvider.setBaseUrl(config.api.url);
-    RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json'});
+   // RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json'});
 
   }])
 

@@ -75,7 +75,7 @@
     </div>
     <!--end BUTTONS-->
 
-
+    <img ng-src={{picture}}>
     <!--Main TABLE DETAILS-->
     <table ng-hide="orderView" st-table="displayedCollection" st-safe-src="rowCollection"
            class="table table-striped table-hover table-condensed">
@@ -116,7 +116,7 @@
                     <option ng-repeat="st in states" value=st>{{st}}</option>
                 </select>
             </td>
-            <td></td>
+            <td><btn class="btn btn-default" ng-click="downloadPhoto(row.num)"><i class="fa fa-trash"></i></btn></td>
         </tr>
         </tbody>
     </table>
