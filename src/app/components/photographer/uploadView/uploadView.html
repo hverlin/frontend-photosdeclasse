@@ -27,16 +27,20 @@
         <div class="col-md-3">
             <div ng-show="uploader.isHTML5">
                 <div ng-repeat="photo in photos" style="margin: 10px 0 10px 0">
-                    <div nv-file-drop="" uploader="uploader" options="{ num: photo.num }" single>
-
-                        <img class="img-responsive"  ng-src="/assets/img/none.gif"   actual-src={{photo.url}} />
-                        <div uploader="uploader" style="text-align: center">
-                            Photo {{photo.num}} |
+                    <div nv-file-drop="" uploader="uploader" options="{ num: photo.num }" single class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Photo {{photo.num}}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <img class="img-responsive"  ng-src="/assets/img/none.gif"   actual-src={{photo.url}} />
+                            <div uploader="uploader" style="text-align: center; margin-top: 5px">
                          <span style="display: inline-block;" class="btn btn-default btn-sm btn-file btn-primary" >
                              Parcourir... <input type="file" nv-file-select="" options="{ num: photo.num }" uploader="uploader" />
                          </span>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
