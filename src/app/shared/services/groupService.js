@@ -84,9 +84,13 @@ function manageGroup(Restangular, $log, $q, AuthService) {
         })
     };
 
-    self.downloadPhoto = function (group, num) {
+    self.downloadPhoto = function (group) {
         return $q(function (resolve, reject) {
-                resolve(config.api.url+'/photo?grpnumber='+group+'&number='+num+'&auth='+AuthService.getToken());
+            var urls = [];
+            for(var i = 0; i < 6; i++){
+                urls.push(config.api.url+'/photo?grpnumber='+group+'&number='+i+'&auth='+AuthService.getToken())
+            }
+            resolve(urls);
         })
     };
 

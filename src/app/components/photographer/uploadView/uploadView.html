@@ -1,16 +1,40 @@
-<div class="container">
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Accueil</a>
+        </div>
 
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a>{{user}}</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
     <div class="row">
-        <h2><a ui-sref="photographe.dashboard" class="btn btn-info"><i class="fa fa-chevron-left"></i></a>
+        <h2 ><a ui-sref="photographe.dashboard" class="btn btn-info"><i class="fa fa-chevron-left"></i></a>
             Upload des photos - Groupe {{group}} </h2>
         <hr>
-
         <div class="col-md-3">
             <div ng-show="uploader.isHTML5">
-                <div ng-repeat="photoNum in photoNumbers">
-                    <div nv-file-drop="" uploader="uploader" options="{ num: photoNum }">
-                        <div nv-file-over="" uploader="uploader" over-class="another-file-over-class"
-                             class="well my-drop-zone"> Photo {{photoNum}}
+                <div ng-repeat="photo in photos" style="margin: 10px 0 10px 0">
+                    <div nv-file-drop="" uploader="uploader" options="{ num: photo.num }" single>
+
+                        <img class="img-responsive"  ng-src="/assets/img/none.gif"   actual-src={{photo.url}} />
+                        <div uploader="uploader" style="text-align: center">
+                            Photo {{photo.num}} |
+                         <span style="display: inline-block;" class="btn btn-default btn-sm btn-file btn-primary" >
+                             Parcourir... <input type="file" nv-file-select="" options="{ num: photo.num }" uploader="uploader" />
+                         </span>
                         </div>
                     </div>
                 </div>
@@ -18,21 +42,20 @@
         </div>
 
         <div class="col-md-9" style="margin-bottom: 40px">
-                <div>Nombre de photos : {{ uploader.queue.length }} |
-                    Progression :
-                    <div class="progress" style="">
-                        <div class="progress-bar" role="progressbar"
-                             ng-style="{ 'width': uploader.progress + '%' }"></div>
-                    </div>
-                    <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()"
-                            ng-disabled="!uploader.getNotUploadedItems().length">
-                        Envoyer !
-                    </button>
-                    <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()"
-                            ng-disabled="!uploader.queue.length">
-                        Tout retirer
-                    </button>
+            <div>Nombre de photos : {{ uploader.queue.length }} | <i class="fa fa-warning text-danger "></i> Taille max pour les photos : <b>5 Mo</b>
+                <div class="progress" style="">
+                    <div class="progress-bar" role="progressbar"
+                         ng-style="{ 'width': uploader.progress + '%' }"></div>
                 </div>
+                <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()"
+                        ng-disabled="!uploader.getNotUploadedItems().length">
+                    Envoyer !
+                </button>
+                <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()"
+                        ng-disabled="!uploader.queue.length">
+                    Tout retirer
+                </button>
+            </div>
             <hr>
             <table class="table">
                 <thead>
@@ -47,7 +70,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in uploader.queue">
-                    <td>{{ item.file.formData.number }}</td>
+                    <td>{{ item.num }}</td>
                     <td>
                         <strong>{{ item.file.name }}</strong>
                         <!-- Image preview -->
@@ -72,23 +95,6 @@
                 </tr>
                 </tbody>
             </table>
-
-
         </div>
-
-
     </div>
-    <div class="col-md-3">
-        <img class="img-responsive" ng-src="https://backend-graines-hverlin.c9.io/v1/photo?grpnumber={{group}}&number=0">
-    </div>
-    <div class="col-md-3">
-        <img class="img-responsive" ng-src="https://backend-graines-hverlin.c9.io/v1/photo?grpnumber={{group}}&number=1">
-    </div>
-    <div class="col-md-3">
-        <img class="img-responsive" ng-src="https://backend-graines-hverlin.c9.io/v1/photo?grpnumber={{group}}&number=2">
-    </div>
-    <div class="col-md-3">
-        <img class="img-responsive" ng-src="https://backend-graines-hverlin.c9.io/v1/photo?grpnumber={{group}}&number=3">
-    </div>
-
 </div>
