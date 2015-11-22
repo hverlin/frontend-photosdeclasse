@@ -94,6 +94,22 @@ function manageGroup(Restangular, $log, $q, AuthService) {
         })
     };
 
+    self.downloadPhotoByNum = function (groupNum, photoNum) {
+            return config.api.url+'/photo?grpnumber='+groupNum+'&number='+photoNum+'&auth='+AuthService.getToken();
+    };
+
+
+    self.getUploadedPhotos = function (group) {
+        return $q(function (resolve, reject) {
+            Restangular.one('/uploadedphotos/'+group).get()
+                .then(function (data) {
+                    resolve(data.plain());
+                }, function () {
+                    reject('Erreur de connexion uploadedphotos');
+                })
+        })
+    };
+
 
 
 }

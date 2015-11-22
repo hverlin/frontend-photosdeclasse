@@ -91,7 +91,7 @@
         </tr>
         <tr>
             <td><i class="fa fa-search fa-2x"></i></td>
-            <td><input st-search="num" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
+            <td><input autofocus="autofocus" st-search="num" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
             <td><input st-search="email" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
             <td><input st-search="phone" st-delay="0" placeholder="" class="input-sm form-control" type="search"/></td>
             <td><input st-search="photographer" st-delay="0" placeholder="" class="input-sm form-control"
@@ -115,7 +115,7 @@
                 </select>
             </td>
             <td style="text-align: center">
-                <btn style="margin-right: 3px" class="btn btn-default" ng-click="downloadPhoto(row.num)"><i class="fa fa-eye"></i></btn>
+                <btn style="margin-right: 3px" class="btn btn-default" ng-click="showPhotos(row.num)"><i class="fa fa-eye"></i></btn>
                 <btn class="btn btn-danger" ng-click="downloadPhoto(row.num)"><i class="fa fa-trash"></i></btn>
             </td>
         </tr>

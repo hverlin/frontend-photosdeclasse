@@ -2,7 +2,15 @@
     <h3>{{modalOptions.headerText}}</h3>
 </div>
 <div class="modal-body">
-    <img style="margin: 5px 0 0 5px" class="img-responsive" ng-repeat="photo in modalOptions.photos" ng-src={{photo}}>
+    <div ng-repeat="(photoNum, photoUrl) in modalOptions.photos" class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Photo {{photoNum}}</h3>
+        </div>
+        <div class="panel-body">
+            <a href="{{photoUrl}}" rel="group" fancyboxable>
+            <img style="margin: 5px 0 0 5px" alt="Photo {{photoNum}}" class="img-responsive"  ng-src={{photoUrl}}></a>
+        </div>
+    </div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary"
