@@ -1,7 +1,8 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -21,21 +22,30 @@
 </nav>
 <div class="container">
     <div class="row">
-        <h2 ><a ui-sref="photographe.dashboard" class="btn btn-info"><i class="fa fa-chevron-left"></i></a>
+        <h2><a ui-sref="photographe.dashboard" class="btn btn-info"><i class="fa fa-chevron-left"></i></a>
             Upload des photos - Groupe {{group}} </h2>
         <hr>
         <div class="col-md-3">
+            <input type="text" ng-model="phone" placeholder="telephone du responsable" class="col form-control">
+            <input type="email" ng-model="email" placeholder="Email du responsable" required class="form-control">
+
             <div ng-show="uploader.isHTML5">
                 <div ng-repeat="photo in photos" style="margin: 10px 0 10px 0">
-                    <div nv-file-drop="" uploader="uploader" options="{ num: photo.num }" single class="panel panel-default">
+                    <div nv-file-drop="" uploader="uploader" options="{ num: photo.num }" single
+                         class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">Photo {{photo.num}}</h3>
                         </div>
                         <div class="panel-body">
-                            <img class="img-responsive"  ng-src="/assets/img/none.gif"   actual-src={{photo.url}} />
+                            <a href="{{photo.url}}" rel="group" fancyboxable>
+                                <img class="img-responsive" ng-src="/assets/img/none.gif" alt="Photo {{photo.num}}"
+                                     actual-src={{photo.url}}>
+                            </a>
+
                             <div uploader="uploader" style="text-align: center; margin-top: 5px">
-                         <span style="display: inline-block;" class="btn btn-default btn-sm btn-file btn-primary" >
-                             Parcourir... <input type="file" nv-file-select="" options="{ num: photo.num }" uploader="uploader" />
+                         <span style="display: inline-block;" class="btn btn-default btn-sm btn-file btn-primary">
+                             Parcourir... <input type="file" nv-file-select="" options="{ num: photo.num }"
+                                                 uploader="uploader"/>
                          </span>
                             </div>
                         </div>
@@ -46,12 +56,14 @@
         </div>
 
         <div class="col-md-9" style="margin-bottom: 40px">
-            <div>Nombre de photos : {{ uploader.queue.length }} | <i class="fa fa-warning text-danger "></i> Taille max pour les photos : <b>5 Mo</b>
+            <div>Nombre de photos : {{ uploader.queue.length }} | <i class="fa fa-warning text-danger "></i> Taille max
+                pour les photos : <b>5 Mo</b>
+
                 <div class="progress" style="">
                     <div class="progress-bar" role="progressbar"
                          ng-style="{ 'width': uploader.progress + '%' }"></div>
                 </div>
-                <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()"
+                <button type="button" class="btn btn-success btn-s" ng-click="uploadAll()"
                         ng-disabled="!uploader.getNotUploadedItems().length">
                     Envoyer !
                 </button>

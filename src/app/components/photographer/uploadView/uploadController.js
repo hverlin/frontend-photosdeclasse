@@ -1,4 +1,4 @@
-photosApp.controller('uploadCtrl', function($scope, FileUploader, $stateParams, $timeout, AuthService) {
+photosApp.controller('uploadCtrl', function($scope, FileUploader, $stateParams, $timeout, AuthService, groupService, Notification) {
     $scope.uploader = new FileUploader();
     $scope.group = $stateParams.num;
 
@@ -32,6 +32,16 @@ photosApp.controller('uploadCtrl', function($scope, FileUploader, $stateParams, 
                     $scope.group+'&number='+i+'&auth='+AuthService.getToken()});
             }
         }, 2000);
+    };
+
+    $scope.uploadAll = function() {
+        if($scope.email === "" || $scope.email === undefined){
+            Notification.error("Merci de donner l'email du responsable !")
+        } else {
+            groupService.updateGroup($scope.group, $scope.email, $scope.phone).then(function (){
+                $scope.uploader.uploadAll();
+            });
+        }
     };
 
     $scope.uploader.filters.push({

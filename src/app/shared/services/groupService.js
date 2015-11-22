@@ -84,6 +84,14 @@ function manageGroup(Restangular, $log, $q, AuthService) {
         })
     };
 
+    self.updateGroup = function(group, email, phone){
+        return $q(function (resolve, reject) {
+            //TODO
+            resolve('ok')
+        })
+
+    };
+
     self.downloadPhoto = function (group) {
         return $q(function (resolve, reject) {
             var urls = [];

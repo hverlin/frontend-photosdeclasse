@@ -1,19 +1,45 @@
 photosApp.service('customerService', ['Restangular', '$log', '$q', manageCustomer]);
 
 function manageCustomer(Restangular, $log, $q) {
-  var self = this;
+    var self = this;
 
-  self.customer = {};
+    self.customer = {};
 
-  self.createCustomer = function (email, grpNumber) {
-    return $q(function (resolve, reject) {
-      Restangular.one('/customer/').customPOST({email: email, group: grpNumber}).then(function () {
-        $log.info('add group ' + email)
-        resolve('creation de l utilsateur réussie !');
-      })
-    }, function () {
-      reject('Erreur de connexion !');
-    })
-  };
+    self.createCustomer = function (email, grpNumber) {
+        return $q(function (resolve, reject) {
+            Restangular.one('/customer/').customPOST({email: email, group: grpNumber}).then(function () {
+                $log.info('add group ' + email);
+                resolve('creation de l utilsateur réussie !');
+            })
+        }, function () {
+            reject('Erreur de connexion !');
+        });
+    };
+
+
+    self.getCustomerFromAuthToken = function(authToken) {
+        return $q(function (resolve, reject) {
+            Restangular.one('/customer?auth_token='+authToken).customGET().then(function (data) {
+                resolve(data.plain());
+            })
+        }, function () {
+            reject('Erreur de connexion !');
+        });
+    };
+
+    self.getUploadedPhotos = function(authToken) {
+        return $q(function (resolve, reject) {
+            Restangular.one('/customer/photos?auth_token='+authToken).get()
+                .then(function (data) {
+                    resolve(data.plain());
+                }, function () {
+                    reject('Erreur de connexion uploadedphotos');
+                })
+        })
+    };
+
+    self.downloadPhotoByNum = function(authToken, photoNum) {
+        return config.api.url+'/customer/photo?number='+photoNum+'&auth_token='+authToken;
+    };
 
 }

@@ -8,11 +8,14 @@
         </div>
         <div class="panel-body">
             <a href="{{photoUrl}}" rel="group" fancyboxable>
-            <img style="margin: 5px 0 0 5px" alt="Photo {{photoNum}}" class="img-responsive"  ng-src={{photoUrl}}></a>
+                <img style="margin: 5px 0 0 5px" alt="Photo {{photoNum}}" class="img-responsive"
+                     ng-src="assets/img/loader.gif" actual-src={{photoUrl}}>
+            </a>
         </div>
     </div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary"
-            data-ng-click="modalOptions.ok();">{{modalOptions.actionButtonText}}</button>
+            data-ng-click="modalOptions.ok();">{{modalOptions.actionButtonText}}
+    </button>
 </div>

@@ -1,4 +1,5 @@
-photosApp.controller('loginOrderCtrl', ['$scope', '$state', 'groupService', '$filter', 'customerService', function ($scope, $state, groupService, $filter, customerService) {
+photosApp.controller('loginOrderCtrl', ['$scope', '$state', 'groupService', '$filter', 'customerService', 'Notification',
+    function ($scope, $state, groupService, $filter, customerService, Notification) {
     var self = this;
 
     $scope.groupService = groupService;
@@ -9,8 +10,10 @@ photosApp.controller('loginOrderCtrl', ['$scope', '$state', 'groupService', '$fi
     $scope.email = '';
 
     $scope.createCustomer = function() {
-        $scope.customerService.createCustomer($scope.email+"@insa-lyon.fr", Number($scope.groupNumber)).then(
-            $state.go("customer.order")
+        $scope.customerService.createCustomer($scope.email+"@insa-lyon.fr", $scope.groupNumber).then(function() {
+            Notification.success("Un email vient de t'être envoyé ! ")
+            //$state.go("customer.order")
+            }
         );
     };
 

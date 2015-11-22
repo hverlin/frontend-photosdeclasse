@@ -58,7 +58,7 @@ photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHe
       children: [
         {
           name: 'order',
-          url: "/order",
+          url: "/order?auth",
           templateUrl: '/app/components/customer/orderView.html',
           controller: 'orderCtrl'
         },

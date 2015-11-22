@@ -1,20 +1,39 @@
-
 <div class="container">
-    <h2 class="text-center">Sélectionne les photos que tu souhaites commander</h2>
+    <h3>Sélectionne les photos que tu souhaites commander</h3>
+    <h5>Email: {{email}} <br>
+        Groupe : {{group}}</h5>
     <hr>
     <div class="row">
-        <div class="col-md-3" ng-repeat="ph in photos">
-            <a href="https://backend-graines-hverlin.c9.io/v1/photo?grpnumber=19&number={{ph}}">
-                <img class="img-responsive" style="display:block;margin:auto" ng-src="assets/img/none.png" actual-src="https://backend-graines-hverlin.c9.io/v1/photo?grpnumber=19&number={{ph}}"></a>
-            <input type="number" style="display:block;margin:2px auto 20px auto;" >
+        <div class="col-md-3" ng-repeat="(photoNum, photoUrl) in photos">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Photo {{photoNum}}</h3>
+                </div>
+                <div class="panel-body">
+                    <a href={{photoUrl}} rel="group" fancyboxable>
+                        <img alt="Photo {{photoNum}}" class="img-responsive"
+                             ng-src="assets/img/loader.gif" actual-src={{photoUrl}}>
+                    </a>
+
+                    <select ng-model="orderInput[photoNum]" class="form-control"
+                            ng-options="n for n in [] | range:0:10">
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
+    <hr>
     <div class="row">
-        <p>Nombre de photos choisies :</p>
-        <p>Pour un total de : </p>
+        <div class="col-md-6">
+            <p>Nombre de photos choisies : {{totalPhotos()}} <br>
+                Pour un total de : {{totalEuros() | currency:''}} €</p>
+            <btn href="" class="btn btn-success" ng-disabled="totalPhotos() <= 0" ng-click="submitOrder()">Valider</btn>
+
+        </div>
+
     </div>
-    <div class="row">
-        <btn href="" class="btn btn-success" ng-click="submitOrder()">Valider</btn>
-    </div>
+
+
+
 
 </div>

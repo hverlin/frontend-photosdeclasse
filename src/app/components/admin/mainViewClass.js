@@ -80,12 +80,10 @@ photosApp.controller('selectionCtrl', ['$scope', 'groupService', '$filter', 'mod
 
         $scope.showPhotos = function(groupNum){
             groupService.getUploadedPhotos(groupNum).then(function(data){
-
                 var uploadedPhotos = {};
                 for(var i = 0; i < data.length; i++){
                     uploadedPhotos[data[i]] = groupService.downloadPhotoByNum(groupNum, data[i]);
                 }
-
 
                 var modalOptions = {
                     headerText: 'Photos du groupe '+groupNum,
