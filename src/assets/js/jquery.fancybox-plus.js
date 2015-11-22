@@ -1098,7 +1098,7 @@
         padding: 0,
         margin: 0,
         opacity: false,
-        modal: true,
+        modal: false,
         cyclic: true,
         scrolling: 'auto',	// 'auto', 'yes' or 'no'
 
@@ -1111,9 +1111,9 @@
 
         ajax: {},
         swf: {wmode: 'transparent'},
+        hideOnOverlayClick: true,
 
         hideOnContentClick: true,
-        hideOnOverlayClick: true,
 
         overlayShow: true,
         overlayOpacity: 0.7,
