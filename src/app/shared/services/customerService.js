@@ -42,4 +42,15 @@ function manageCustomer(Restangular, $log, $q) {
         return config.api.url+'/customer/photo?number='+photoNum+'&auth_token='+authToken;
     };
 
+    self.createOrder = function(authToken, order) {
+        return $q(function (resolve, reject) {
+            Restangular.one('/order?auth_token='+authToken).customPOST({order : order})
+                .then(function (data) {
+                    resolve(data.plain());
+                }, function () {
+                    reject('Erreur de connexion uploadedphotos');
+                })
+        })
+    };
+
 }

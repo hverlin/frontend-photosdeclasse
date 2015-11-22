@@ -29,7 +29,18 @@ photosApp.controller('orderCtrl', function ($scope, $state, $stateParams, custom
     };
 
     $scope.submitOrder = function () {
-        $state.go("customer.orderCompleted")
+        var orders = {};
+
+        if($scope.orderInput[0]) orders.photo_1 = $scope.orderInput[0];
+        if($scope.orderInput[1]) orders.photo_2 = $scope.orderInput[1];
+        if($scope.orderInput[2]) orders.photo_3 = $scope.orderInput[2];
+        if($scope.orderInput[3]) orders.photo_4 = $scope.orderInput[3];
+        if($scope.orderInput[4]) orders.photo_5 = $scope.orderInput[4];
+        if($scope.orderInput[5]) orders.photo_6 = $scope.orderInput[5];
+
+        customerService.createOrder($scope.auth, orders).then(function(order){
+            $state.go("customer.orderCompleted", {order: order});
+        });
     }
 
 });
