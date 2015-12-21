@@ -11,7 +11,8 @@ var photosApp = angular.module('photosApp', [
         'ui-notification',
         'smart-table',
         'photosApp.services',
-        'fancyboxplus'
+        'fancyboxplus',
+        'vModal'
     ])
 
     .config(['RestangularProvider', function (RestangularProvider) {

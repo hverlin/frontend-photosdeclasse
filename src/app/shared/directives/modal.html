@@ -1,0 +1,13 @@
+<v-modal class="vModal--default" onclose="myModalCtrl.close()">
+    <v-dialog heading="My modal" small middle>
+        <v-close label="Close"></v-close>
+        <p>Un email à <b>{{email}}</b> avec un lien pour voir tes photos vient de t'être envoyé ! </p>
+        <div  style="display: block;width: 360px;margin: auto;" >
+            <a style="display: block;width: 160px;margin: auto;" class="btn btn-info" href="http://zmail.insa-lyon.fr/" target="_blank"
+               ng-click="myModalCtrl.close()">Voir mes mails !</a>
+            <a style="display: block;width: 160px;margin: auto; text-align: center" href="http://zmail.insa-lyon.fr/" target="_blank"
+               ng-click="myModalCtrl.close()">Email non reçu ?</a>
+        </div>
+
+    </v-dialog>
+</v-modal>

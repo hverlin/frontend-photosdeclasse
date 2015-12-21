@@ -37,9 +37,7 @@ photosApp.controller('selectionCtrl', ['$scope', 'groupService', '$filter', 'mod
             var total = 0;
 
             for (var i = 0; i < $scope.rowOrderCollection.length; i++) {
-                for (var j = 0; j < $scope.rowOrderCollection[i].length; j++) {
-                    total += $scope.rowOrderCollection[i][j];
-                }
+                total += Number($scope.rowOrderCollection[i][photo_1]);
             }
             return total;
         };
