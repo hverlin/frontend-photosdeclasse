@@ -6,7 +6,7 @@ photosApp.controller('loginBureauCtrl', ['$scope', '$state', '$filter', 'UserSer
     $scope.login = function () {
       $scope.UserService.login('grainesdimages@gmail.com', $scope.password)
         .then(function() {
-        $state.go("admin.mainClassList")
+        $state.go("admin.detailsClasses")
       })
     };
 

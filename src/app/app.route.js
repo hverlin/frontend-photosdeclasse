@@ -104,10 +104,16 @@ photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHe
             },
             children: [
                 {
-                    name: 'mainClassList',
+                    name: 'detailsClasses',
                     url: "/classes",
-                    templateUrl: '/app/components/admin/mainViewClass.html',
-                    controller: 'selectionCtrl'
+                    templateUrl: '/app/components/admin/detailsClasses.html',
+                    controller: 'detailsClasses'
+                },
+                {
+                    name: 'orders',
+                    url: "/orders",
+                    templateUrl: '/app/components/admin/orders.html',
+                    controller: 'ordersController'
                 },
                 {
                     name: 'photographers',

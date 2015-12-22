@@ -12,7 +12,9 @@ var photosApp = angular.module('photosApp', [
         'smart-table',
         'photosApp.services',
         'fancyboxplus',
-        'vModal'
+        'vModal',
+        'ui.grid',
+        'ui.grid.selection'
     ])
 
     .config(['RestangularProvider', function (RestangularProvider) {

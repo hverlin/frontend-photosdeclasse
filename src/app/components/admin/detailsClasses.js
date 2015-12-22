@@ -1,78 +1,73 @@
-photosApp.controller('selectionCtrl', ['$scope', 'groupService', '$filter', 'modalService', '$log',
-    function ($scope, groupService, $filter, modalService, $log) {
-
+photosApp.controller('detailsClasses', ['$scope', 'groupService', '$filter', 'modalService', 'uiGridConstants',
+    function ($scope, groupService, $filter, modalService, uiGridConstants) {
         $scope.groupService = groupService;
 
-        $scope.newGrpNumber = null;
+        $scope.gridOptions = {
+            enableColumnResizing : true,
+            enableFiltering : true,
+            enableGridMenu : true,
+            showGridFooter : false,
+            showColumnFooter : false,
+            fastWatch : false,
+            enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
+            onRegisterApi: function(gridApi) {
+                $scope.gridApi = gridApi;
+                gridApi.selection.on.rowSelectionChanged($scope, function (row) {
+                    var msg = 'row selected ' + row.isSelected;
+                    console.log(msg);
+                });
+            }
+        };
 
-        $scope.orderView = false;
+        // return the height of the grid
+        $scope.getHeight = function () {
+            return window.innerHeight - 67;
+        };
 
-        $scope.rowSelected = [];
+        $scope.gridOptions.rowIdentity = function(row) {
+            return row.id;
+        };
+        $scope.gridOptions.getRowIdentity = function(row) {
+            return row.id;
+        };
+
+        $scope.gridOptions.columnDefs = [
+            { name:'num', displayName : "Groupe"},
+            { name:'email', displayName:'Email Responsable'},
+            {name: 'phone', displayName:'Téléphone Responsable'},
+            { name:'status'},
+            {name: 'photographer.email', displayName: 'Photographe'},
+            {name: 'Actions', enableFiltering: false,
+                cellTemplate: '<div class="ui-grid-cell-contents"><a href=\"\" ng-click=grid.appScope.showPhotos(row.entity.num)>Voir les photos</a></span></div>'}
+
+        ];
 
         groupService.getGroups().then(function (data) {
-            $scope.rowCollection = data;
+            $scope.gridOptions.data = data;
         });
 
-        groupService.getOrders().then(function (data) {
-            $scope.rowOrderCollection = data;
-        });
-
-        $scope.displayedCollection = [].concat($scope.rowCollection);
-        $scope.displayedOrderCollection = [].concat($scope.rowOrderCollection);
 
         $scope.addGrp = function () {
-            $scope.groupService.addGroup($scope.newGrpNumber).then(function (data) {
-                $scope.rowCollection = data;
-
-                $scope.groupService.getOrders().then(function (data) {
-                    $scope.rowOrderCollection = data;
+            var group = prompt("Numéro du groupe", "groupe");
+            if (group != null) {
+                $scope.groupService.addGroup(group).then(function (data) {
+                    $scope.gridOptions.data = data;
+                    $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
                 });
-
-            });
-            $scope.newGrpNumber = '';
-        };
-
-        $scope.computeTotal = function () {
-            if (!$scope.rowOrderCollection) return;
-            var total = 0;
-
-            for (var i = 0; i < $scope.rowOrderCollection.length; i++) {
-                total += Number($scope.rowOrderCollection[i][photo_1]);
             }
-            return total;
-        };
-
-        $scope.onRowSelected = function (num) {
-            var removed = false;
-            for(var i = 0; i < $scope.rowSelected.length; i++) {
-                if ($scope.rowSelected[i] === num) {
-                    _.pull($scope.rowSelected, num);
-                    removed = true;
-                    break;
-                }
-            }
-
-            if(!removed) {
-                $scope.rowSelected.push(num);
-            }
-            console.log($scope.rowSelected);
         };
 
         $scope.deleteGroups = function () {
-            var cpt = $scope.rowSelected.length;
-            for (var i = 0; i < $scope.rowSelected.length; i++) {
-                $scope.groupService.deleteGroups($scope.rowSelected[i]).then(function () {
-                    cpt--;
-                    if (cpt === 0) {
-                        $scope.groupService.getGroups().then(function (data) {
-                            $scope.rowCollection = data;
+            var groups = $scope.gridApi.selection.getSelectedRows();
+            for (var i = 0; i < groups.length; i++) {
+                if (confirm("supprimer groupe " + groups[i].num + " ?")) {
+                    $scope.groupService.deleteGroups(groups[i].num).then(function (grpdeleted) {
+                        groupService.getGroups().then(function (data) {
+                            $scope.gridOptions.data = data;
+                            $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
                         });
-                        $scope.groupService.getOrders().then(function (data) {
-                            $scope.rowOrderCollection = data;
-                            $scope.rowSelected.length = 0;
-                        });
-                    }
-                });
+                    });
+                }
             }
         };
 
@@ -116,31 +111,6 @@ photosApp.controller('selectionCtrl', ['$scope', 'groupService', '$filter', 'mod
     }]);
 
 
-photosApp.directive('csSelect', function () {
-    return {
-        require: '^stTable',
-        template: '<input type="checkbox" ng-click="onRowSelected(row.num)"/>',
-        scope: {
-            row: '=csSelect'
-        },
-        link: function (scope, element, attr, ctrl) {
-
-            element.bind('change', function (evt) {
-                scope.$apply(function () {
-                    ctrl.select(scope.row, 'multiple');
-                });
-            });
-
-            scope.$watch('row.isSelected', function (newValue, oldValue) {
-                if (newValue === true) {
-                    element.parent().addClass('st-selected');
-                } else {
-                    element.parent().removeClass('st-selected');
-                }
-            });
-        }
-    };
-});
 
 photosApp.service('modalService', ['$modal',
     function ($modal) {
