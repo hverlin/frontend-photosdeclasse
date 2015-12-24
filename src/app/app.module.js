@@ -14,7 +14,10 @@ var photosApp = angular.module('photosApp', [
         'fancyboxplus',
         'vModal',
         'ui.grid',
-        'ui.grid.selection'
+        'ui.grid.selection',
+        'ui.grid.exporter',
+         'ui.grid.edit',
+        'oitozero.ngSweetAlert'
     ])
 
     .config(['RestangularProvider', function (RestangularProvider) {
@@ -50,7 +53,7 @@ function start(Restangular, $http, $state, Notification, $rootScope, $log, AuthS
             Notification.error("Erreur HTTP : " + response.status);
 
 
-            if(response.status == 401) {
+            if (response.status == 401) {
 
                 AuthService.logout();
             }
@@ -72,9 +75,9 @@ function start(Restangular, $http, $state, Notification, $rootScope, $log, AuthS
         //}
 
         if (toState.name == 'auth.authAdmin' && AuthService.isAuthed()) {
-            $timeout(function() {
+            $timeout(function () {
                 $state.transitionTo("admin.mainClassList")
-            },10)
+            }, 10)
         }
 
     });

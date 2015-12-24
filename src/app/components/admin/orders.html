@@ -13,7 +13,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li> <a ui-sref="admin.detailsClasses">Détails</a></li>
-                <li class="active" ui-sref="admin.orders"><a>Commandes</a></li>
+                <li class="active" ><a ui-sref="admin.orders">Commandes</a></li>
                 <li><a ui-sref="admin.photographers">Photographes <span class="sr-only">Photographes</span></a></li>
             </ul>
             <!-- Single button -->
@@ -29,5 +29,5 @@
 <!--Main TABLE DETAILS-->
 <div style="padding: 64px 0 0;" >
     <div ng-style="{height: getHeight() + 'px'}"  ui-grid="gridOptions" class="myGrid"
-          ui-grid-auto-resize  ui-grid-selection ></div>
+         ui-grid-exporter ui-grid-auto-resize  ui-grid-selection ></div>
 </div>

@@ -24,3 +24,4 @@ photosApp.controller('loginOrderCtrl', ['$scope', '$state', 'groupService', '$fi
     });
 
 }]);
+

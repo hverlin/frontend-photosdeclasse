@@ -84,10 +84,15 @@ function manageGroup(Restangular, $log, $q, AuthService) {
         })
     };
 
-    self.updateGroup = function(group, email, phone){
+    self.updateGroup = function(group, email, phone, state){
         return $q(function (resolve, reject) {
-            //TODO
-            resolve('ok')
+            Restangular.one('/classe/updategrp?group='+group+'&emailResponsable='+email
+            +'&phoneNumber='+phone+'&state='+state).get()
+                .then(function (){
+                resolve();
+            }, function () {
+                reject('error in choose group');
+            })
         })
 
     };
@@ -118,6 +123,20 @@ function manageGroup(Restangular, $log, $q, AuthService) {
         })
     };
 
-
+    self.getHDPhotos = function (group) {
+        return $q(function (resolve, reject) {
+            var filters = {
+                "title" : 'some value',
+                "type[]": ['Full Time','Part Time']
+            };
+            Restangular.one('/uploadedphotos/'+group).withHttpConfig({responseType: 'blob'}).get(filters)
+                .then(function (data) {
+                    var url = window.URL.createObjectURL(data);
+                    resolve(url);
+                }, function () {
+                    reject('Erreur de connexion uploadedphotos');
+                })
+        })
+    };
 
 }

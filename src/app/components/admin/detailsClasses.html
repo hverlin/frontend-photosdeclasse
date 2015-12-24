@@ -21,8 +21,9 @@
                     <ul class="dropdown-menu" dropdown-menu>
                         <li><a href="" data-ng-click="addGrp()">Ajouter une classe</a></li>
                         <li><a href="" data-ng-click="deleteGroups()">Supprimer</a></li>
-                        <li><a href="">Copier les adresses email</a></li>
-                        <li><a href="">Télécharger les photos</a></li>
+                        <li><a href=""  data-ng-click="copyEmail()">Copier les adresses email</a></li>
+                        <li><a href=""  data-ng-click="copyEmailResp()">Copier les emails des responsables</a></li>
+                        <li><a href="" data-ng-click="dowload()">Télécharger les photos</a></li>
                     </ul>
                 </li>
             </ul>
@@ -39,5 +40,5 @@
 <!--Main TABLE DETAILS-->
 <div style="padding: 64px 0 0;" >
     <div ng-style="{height: getHeight() + 'px'}"  ui-grid="gridOptions" class="myGrid"
-         ui-grid-auto-resize  ui-grid-selection ></div>
+         ui-grid-auto-resize  ui-grid-selection ui-grid-edit ></div>
 </div>
