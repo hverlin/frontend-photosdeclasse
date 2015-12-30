@@ -1,5 +1,5 @@
 <!-- Fixed navbar -->
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -18,7 +18,6 @@
             </ul>
             <!-- Single button -->
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="" ng-click="openSettings()">Paramètres<span class="sr-only">Paramètres</span></a></li>
                 <li><a  ui-sref="admin.photographers">Déconnexion<span class="sr-only">Déconnexion</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
@@ -27,7 +26,7 @@
 
 
 <!--Main TABLE DETAILS-->
-<div style="padding: 64px 0 0;" >
+<div style="padding: 50px 0 0;" >
     <div ng-style="{height: getHeight() + 'px'}"  ui-grid="gridOptions" class="myGrid"
-         ui-grid-exporter ui-grid-auto-resize  ui-grid-selection ></div>
+        ui-grid-auto-resize  ui-grid-selection ui-grid-grouping></div>
 </div>

@@ -15,7 +15,12 @@ var paths = {
     img: ['./src/assets/img/**/*'],
     scripts: ['./src/assets/js/jquery.fancybox-plus.js','./src/app/shared/directives/angular-fancybox-plus.js','./src/app/app.config.js', './src/app/app.service.js', './src/app/app.module.js', './src/app/shared/services/*.js', './src/app/*.*.js', './src/app/**/*.js'],
     distProd: './dist',
-    distScriptsProd: './dist/scripts'
+    distScriptsProd: './dist/scripts',
+    font: ['./src/assets/libs/bower_components/angular-ui-grid/*.ttf', './src/assets/libs/bower_components/angular-ui-grid/*.woff'],
+    faq: ['./FAQ/**'],
+    tuto: ['./tutoriel/**']
+
+    
 };
 
 // JAVASCRIPT pipes inspired from http://paislee.io/a-healthy-gulp-setup-for-angularjs-projects/
@@ -86,12 +91,27 @@ gulp.task('less', pipes.compileLess);
 gulp.task('move-html', function () {
     gulp.src(paths.html, {base: './src/'})
         .pipe(plugins.htmlmin({collapseWhitespace: true}))
-        .pipe(gulp.dest(distDir))
+        .pipe(gulp.dest(distDir));
 });
 
 gulp.task('moveImg', function () {
     gulp.src(paths.img)
-        .pipe(gulp.dest(distDir + 'assets/img/'))
+        .pipe(gulp.dest(distDir + 'assets/img/'));
+});
+
+gulp.task('moveFont', function () {
+    gulp.src(paths.font)
+        .pipe(gulp.dest(distDir + 'css/'));
+});
+
+gulp.task('moveFAQ', function () {
+    gulp.src(paths.faq)
+        .pipe(gulp.dest(distDir + 'faq/'));
+});
+
+gulp.task('moveTuto', function () {
+    gulp.src(paths.tuto)
+        .pipe(gulp.dest(distDir + 'tuto/'));
 });
 
 gulp.task('build-js-vendors', pipes.builtJsVendors);
@@ -120,6 +140,8 @@ gulp.task('serve', ['build-js-app'], function () {
 
     // Serve files from the root of this project
     browserSync({
+        
+            port: 8082,
         server: {
             baseDir: distDir
         },
@@ -138,4 +160,4 @@ gulp.task('serve', ['build-js-app'], function () {
 });
 
 // ------------------- builds all the environment ------------------------------------
-gulp.task('default', ['build-js-vendors', 'less', 'move-html', 'moveImg',  'watch-less', 'watch-html', 'watch-img', 'serve']);
+gulp.task('default', ['build-js-vendors', 'less', 'move-html', 'moveImg', 'moveFont', 'moveFAQ', 'moveTuto', 'watch-less', 'watch-html', 'watch-img', 'serve']);

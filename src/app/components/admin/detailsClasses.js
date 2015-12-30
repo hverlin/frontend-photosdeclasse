@@ -1,7 +1,8 @@
-photosApp.controller('detailsClasses', ['$scope', 'groupService', '$filter', 'modalService', 'uiGridConstants', 'SweetAlert',
-    function ($scope, groupService, $filter, modalService, uiGridConstants, SweetAlert) {
+photosApp.controller('detailsClasses', ['$scope', 'groupService', '$filter', 'uiGridConstants', 'SweetAlert', 'i18nService', '$uibModal', '$timeout', 'AuthService',
+    function ($scope, groupService, $filter, uiGridConstants, SweetAlert, i18nService, $uibModal, $timeout, AuthService) {
         $scope.groupService = groupService;
 
+        i18nService.setCurrentLang('fr');
         $scope.gridOptions = {
             enableColumnResizing: true,
             enableFiltering: true,
@@ -10,104 +11,184 @@ photosApp.controller('detailsClasses', ['$scope', 'groupService', '$filter', 'mo
             showColumnFooter: false,
             fastWatch: false,
             enableCellEdit: false,
+            rowHeight: 35,
+            enableGroupHeaderSelection: true,
             enableHorizontalScrollbar: uiGridConstants.scrollbars.NEVER,
             onRegisterApi: function (gridApi) {
                 $scope.gridApi = gridApi;
-                gridApi.selection.on.rowSelectionChanged($scope, function (row) {
-                    var msg = 'row selected ' + row.isSelected;
-                    console.log(msg);
+                $scope.gridApi.grid.registerDataChangeCallback(function () {
+                    try {
+                        $scope.gridApi.treeBase.expandAllRows();
+                    }
+                    catch (e) {}
                 });
-                gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-                    if(colDef.name !== 'status') return;
-                    if(newValue === oldValue) return;
+                $scope.gridApi.selection.on.rowSelectionChanged($scope, function (rowChanged) {
+                    console.log(rowChanged)
+                    if (typeof (rowChanged.treeLevel) !== 'undefined' && rowChanged.treeLevel > -1) {
+                        // this is a group header
+                        var children = $scope.gridApi.treeBase.getRowChildren(rowChanged);
+                        children.forEach(function (child) {
+                            if (rowChanged.isSelected) {
+                                $scope.gridApi.selection.selectRow(child.entity);
+                            }
+                            else {
+                                $scope.gridApi.selection.unSelectRow(child.entity);
+                            }
+                        });
+                    }
+                });
 
-                    groupService.updateGroup(rowEntity.num, null, null,newValue).then(function(){
-
-                    });
-
+                gridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {
+                    if (newValue === oldValue) return;
+                    if (colDef.name === 'status') {
+                        groupService.updateGroup(rowEntity.num, null, null, newValue);
+                    }
+                    else if (colDef.name === 'emailResponsable') {
+                        groupService.updateGroup(rowEntity.num, newValue, null, null);
+                    }
+                    else if (colDef.name === 'phoneNumber') {
+                        groupService.updateGroup(rowEntity.num, null, newValue, null);
+                    }
                     $scope.$apply();
                 });
             }
         };
 
         // return the height of the grid
-        $scope.getHeight = function () {
-            return window.innerHeight - 67;
-        };
+        $scope.getHeight = util.gridHeight;
 
         $scope.gridOptions.rowIdentity = function (row) {
             return row.id;
         };
+
         $scope.gridOptions.getRowIdentity = function (row) {
             return row.id;
         };
 
-        var naturalSort = function (a, b) {
-            var NUMBER_GROUPS = /(-?\d*\.?\d+)/g;
 
-            var aa = String(a).split(NUMBER_GROUPS),
-                bb = String(b).split(NUMBER_GROUPS),
-                min = Math.min(aa.length, bb.length);
-
-            for (var i = 0; i < min; i++) {
-                var x = parseFloat(aa[i]) || aa[i].toLowerCase(),
-                    y = parseFloat(bb[i]) || bb[i].toLowerCase();
-                if (x < y) return -1;
-                else if (x > y) return 1;
-            }
-
-            return 0;
-        };
-
-        $scope.gridOptions.columnDefs = [
-            {
-                name: 'num', displayName: "Groupe", filter: {
-                condition: uiGridConstants.filter.EXACT
-            }, sortingAlgorithm: naturalSort,
+        $scope.gridOptions.columnDefs = [{
+                name: 'laniere',
+                displayName: "Lanière",
+                width: '7%',
+                enableColumnMenu: false,
+                enableSorting: false,
+                grouping: {
+                    groupPriority: 0
+                }
+            }, {
+                name: 'num',
+                displayName: "Groupe",
+                width: '5%',
+                suppressRemoveSort: true,
+                enableColumnMenu: false,
+                filter: {
+                    condition: uiGridConstants.filter.EXACT
+                },
+                sortingAlgorithm: util.naturalSort,
                 sort: {
                     direction: uiGridConstants.ASC
                 }
-            },
-            {name: 'email', displayName: 'Email Responsable'},
-            {name: 'phone', displayName: 'Téléphone Responsable'},
-            {
+            }, {
+                name: 'emailResponsable',
+                displayName: 'Email Responsable',
+                enableColumnMenu: false,
+                enableCellEdit: true,
+                cellTemplate: 'editTemplate.html'
+            }, {
+                name: 'phoneNumber',
+                displayName: 'Téléphone Responsable',
+                enableCellEdit: true,
+                enableColumnMenu: false,
+                cellTemplate: 'editTemplate.html'
+            }, {
                 field: 'status',
+                enableColumnMenu: false,
                 filter: {
                     type: uiGridConstants.filter.SELECT,
-                    selectOptions: [
-                        {value: 'Pas de photographe', label: 'Pas de photographe'},
-                        {value: 'Classe contactée', label: 'Classe contactée'},
-                        {value: 'Rendez-vous pris', label: 'Rendez-vous pris'},
-                        {value: 'Photos prises', label: 'Photos prises'},
-                        {value: 'Photos uploadées', label: 'Photos uploadées'},
-                        {value: 'Commande terminée', label: 'Commande terminée'},
-                        {value: 'Argent récupéré', label: 'Argent récupéré'},
-                        {value: 'Achat des photos', label: 'Achat des photos'},
-                        {value: 'Terminé', label: 'Terminé'}
-                    ]
-                }},
-            {
+                    selectOptions: [{
+                        value: 'Pas de photographe',
+                        label: 'Pas de photographe'
+                    }, {
+                        value: 'Groupe choisi',
+                        label: 'Groupe choisi'
+                    }, {
+                        value: 'Groupe contacté',
+                        label: 'Groupe contacté'
+                    }, {
+                        value: 'Rendez-vous pris',
+                        label: 'Rendez-vous pris'
+                    }, {
+                        value: 'Photos prises',
+                        label: 'Photos prises'
+                    }, {
+                        value: 'Photos uploadées',
+                        label: 'Photos uploadées'
+                    }, {
+                        value: 'Commande en cours',
+                        label: 'Commande en cours'
+                    }, {
+                        value: 'Commande terminée',
+                        label: 'Commande terminée'
+                    }, {
+                        value: 'Argent récupéré',
+                        label: 'Argent récupéré'
+                    }, {
+                        value: 'Achat des photos',
+                        label: 'Achat des photos'
+                    }, {
+                        value: 'Terminé',
+                        label: 'Terminé'
+                    }]
+                }
+            }, {
                 name: 'status',
                 displayName: 'Etat',
+                enableColumnMenu: false,
                 enableCellEdit: true,
+                cellTemplate: 'editTemplate.html',
                 editableCellTemplate: 'ui-grid/dropdownEditor',
                 editDropdownValueLabel: 'status',
-                editDropdownOptionsArray: [
-                    {id: 'Pas de photographe', status: 'Pas de photographe'},
-                    {id: 'Classe contactée', status: 'Classe contactée'},
-                    {id: 'Rendez-vous pris', status: 'Rendez-vous pris'},
-                    {id: 'Photos prises', status: 'Photos prises'},
-                    {id: 'Photos uploadées', status: 'Photos uploadées'},
-                    {id: 'Commande terminée', status: 'Commande terminée'},
-                    {id: 'Argent récupéré', status: 'Argent récupéré'},
-                    {id: 'Achat des photos', status: 'Achat des photos'},
-                    {id: 'Terminé', status: 'Terminé'}
-                ]
-            },
-            {name: 'photographer.email', displayName: 'Photographe'},
-            {
-                name: 'Actions', enableFiltering: false, enableColumnMenu: false, enableSorting : false,
-                cellTemplate: '<div class="ui-grid-cell-contents"><a href=\"\" ng-click=grid.appScope.showPhotos(row.entity.num)>Voir les photos</a></span></div>'
+                editDropdownOptionsArray: [{
+                    id: 'Pas de photographe',
+                    status: 'Pas de photographe'
+                }, {
+                    id: 'Groupe choisi',
+                    status: 'Groupe choisi'
+                }, {
+                    id: 'Groupe contacté',
+                    status: 'Groupe contacté'
+                }, {
+                    id: 'Rendez-vous pris',
+                    status: 'Rendez-vous pris'
+                }, {
+                    id: 'Photos prises',
+                    status: 'Photos prises'
+                }, {
+                    id: 'Photos uploadées',
+                    status: 'Photos uploadées'
+                }, {
+                    id: 'Commande terminée',
+                    status: 'Commande terminée'
+                }, {
+                    id: 'Argent récupéré',
+                    status: 'Argent récupéré'
+                }, {
+                    id: 'Achat des photos',
+                    status: 'Achat des photos'
+                }, {
+                    id: 'Terminé',
+                    status: 'Terminé'
+                }]
+            }, {
+                name: 'photographer.email',
+                displayName: 'Photographe',
+                enableColumnMenu: false
+            }, {
+                name: 'Actions',
+                enableFiltering: false,
+                enableColumnMenu: false,
+                enableSorting: false,
+                cellTemplate: 'btnTemplate.html'
             }
 
         ];
@@ -118,14 +199,22 @@ photosApp.controller('detailsClasses', ['$scope', 'groupService', '$filter', 'mo
 
 
         $scope.addGrp = function () {
-            var group = prompt("Numéro du groupe", "groupe");
-            if (group != null) {
+            var modalInstance = $uibModal.open({
+                templateUrl: '/app/components/admin/modalAddGroup.html',
+                controller: 'addGroupController'
+            });
+
+            modalInstance.result.then(function (group) {
                 $scope.groupService.addGroup(group).then(function (data) {
                     $scope.gridOptions.data = data;
                     $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
                 });
-            }
+            }, function () {
+                console.info('Modal dismissed at: ' + new Date());
+            });
         };
+
+
 
         $scope.deleteGroups = function () {
             var groups = $scope.gridApi.selection.getSelectedRows();
@@ -148,22 +237,81 @@ photosApp.controller('detailsClasses', ['$scope', 'groupService', '$filter', 'mo
                     uploadedPhotos[data[i]] = groupService.downloadPhotoByNum(groupNum, data[i]);
                 }
 
-                var modalOptions = {
-                    headerText: 'Photos du groupe ' + groupNum,
+                $scope.modalOptions = {
+                    groupNum: groupNum,
                     photos: uploadedPhotos
                 };
 
-                modalService.showModal({}, modalOptions)
-                    .then(function (result) {
-                    });
-            })
+                var modalInstance = $uibModal.open({
+                    templateUrl: '/app/components/admin/modalShowPhotos.html',
+                    controller: 'showPhotosController',
+                    resolve: {
+                        modalOptions: function () {
+                            return $scope.modalOptions;
+                        }
+                    }
+                });
+
+            });
+        };
+
+        $scope.createInvoice = function (groupNum) {
+            $scope.groupService.createInvoice(groupNum).then(function () {});
+        };
+
+        $scope.beginOrders = function (groupNum) {
+            $scope.groupService.beginOrders(groupNum).then(function () {
+                groupService.getGroups().then(function (data) {
+                    $scope.gridOptions.data = 'data';
+                    $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
+                    $timeout(function () {
+                        $scope.gridOptions.data = data;
+                        $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
+                    }, 10);
+                });
+            });
+        };
+
+        $scope.closeOrders = function (groupNum) {
+            $scope.groupService.closeOrders(groupNum).then(function () {
+                groupService.getGroups().then(function (data) {
+                    $scope.gridOptions.data = 'data';
+                    $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
+                    $timeout(function () {
+                        $scope.gridOptions.data = data;
+                        $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
+                    }, 10);
+                });
+            });
+        };
+
+
+        $scope.downloadInvoices = function () {
+            var groups = $scope.gridApi.selection.getSelectedRows();
+            if (groups.length === 0) return;
+
+
+            groupService.getAuthToken().then(function (auth) {
+                var url = auth;
+                url += "&g=" + groups[0].num;
+                for (var i = 1; i < groups.length; i++) {
+                    url += "&g=" + groups[i].num;
+                }
+                var a = document.createElement("a");
+                document.body.appendChild(a);
+                a.style = "display: none";
+                a.href = config.api.url + "/classe/invoices" + url;
+                a.click();
+                a.parentNode.removeChild(a);
+            });
+
         };
 
         $scope.copyEmail = function () {
             var groups = $scope.gridApi.selection.getSelectedRows();
             var text = "";
             for (var i = 0; i < groups.length; i++) {
-                text += "pcg" + groups[i].num + "@listes.insa-lyon.fr, "
+                text += groups[i].emailGroup + ", ";
             }
             window.prompt("Copier : Ctrl+C, Entrer", text);
 
@@ -173,99 +321,69 @@ photosApp.controller('detailsClasses', ['$scope', 'groupService', '$filter', 'mo
             var groups = $scope.gridApi.selection.getSelectedRows();
             var text = "";
             for (var i = 0; i < groups.length; i++) {
-                if (groups[i].email !== undefined) {
-                    text += groups[i].email + ", "
+                if (groups[i].emailResponsable !== undefined) {
+                    text += groups[i].emailResponsable + ", ";
                 }
             }
-
             window.prompt("Copier : Ctrl+C, Entrer", text);
-
         };
 
         $scope.dowload = function () {
             var groups = $scope.gridApi.selection.getSelectedRows();
             if (groups.length === 0) return;
-
-            var url = "?g=" + groups[0].num;
-            for (var i = 1; i < groups.length; i++) {
-                url += "&g=" + groups[i].num;
-            }
-            var a = document.createElement("a");
-            document.body.appendChild(a);
-            a.style = "display: none";
-            a.href = "https://backend-graines-hverlin.c9.io/v1/hdphotos" + url;
-            a.click();
-            a.parentNode.removeChild(a);
-        };
-
-
-        $scope.openSettings = function () {
-
-            var modalOptions = {
-                closeButtonText: 'Cancel',
-                headerText: 'Paramètres'
-            };
-
-            modalService.showModal({}, modalOptions)
-                .then(function (result) {
-                });
-        };
-
-        $scope.states = [
-            "Pas de photographe",
-            "commande en cours",
-            "commande terminée"
-        ];
-
-    }]);
-
-photosApp.service('modalService', ['$modal',
-    function ($modal) {
-
-        var modalDefaults = {
-            backdrop: true,
-            keyboard: true,
-            modalFade: true,
-            templateUrl: '/app/components/admin/modalSettings.html'
-        };
-
-        var modalOptions = {
-            closeButtonText: 'Close',
-            actionButtonText: 'OK',
-            headerText: 'Proceed?',
-            bodyText: 'Perform this action?'
-        };
-
-        this.showModal = function (customModalDefaults, customModalOptions) {
-            if (!customModalDefaults) customModalDefaults = {};
-            customModalDefaults.backdrop = 'static';
-            return this.show(customModalDefaults, customModalOptions);
-        };
-
-        this.show = function (customModalDefaults, customModalOptions) {
-            //Create temp objects to work with since we're in a singleton service
-            var tempModalDefaults = {};
-            var tempModalOptions = {};
-
-            //Map angular-ui modal custom defaults to modal defaults defined in service
-            angular.extend(tempModalDefaults, modalDefaults, customModalDefaults);
-
-            //Map modal.html $scope custom properties to defaults defined in service
-            angular.extend(tempModalOptions, modalOptions, customModalOptions);
-
-            if (!tempModalDefaults.controller) {
-                tempModalDefaults.controller = function ($scope, $modalInstance) {
-                    $scope.modalOptions = tempModalOptions;
-                    $scope.modalOptions.ok = function (result) {
-                        $modalInstance.close(result);
-                    };
-                    $scope.modalOptions.close = function (result) {
-                        $modalInstance.dismiss('cancel');
-                    };
+            groupService.getAuthToken().then(function (auth) {
+                //console.log(auth)
+                var url = auth;
+                url += "&g=" + groups[0].num;
+                for (var i = 1; i < groups.length; i++) {
+                    url += "&g=" + groups[i].num;
                 }
-            }
+                var a = document.createElement("a");
+                document.body.appendChild(a);
+                a.style = "display: none";
+                a.href = config.api.url + "/hdphotos" + url;
+                a.click();
+                a.parentNode.removeChild(a);
+            });
 
-            return $modal.open(tempModalDefaults).result;
         };
+    }
+]);
 
-    }]);
+photosApp.controller('addGroupController', function ($scope, $uibModalInstance) {
+
+    $scope.group = {
+        num: "71",
+        email: "pcg71@insa-lyon.fr",
+        laniere: "Lanière A"
+    };
+
+    $scope.ok = function () {
+        $uibModalInstance.close($scope.group);
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+photosApp.controller('showPhotosController', function ($scope, $uibModalInstance, modalOptions) {
+    $scope.modalOptions = modalOptions;
+
+    $scope.photoName = {
+        "0": "Photo 1",
+        "1": "Photo 2",
+        "2": "Photo 3",
+        "3": "Photo 4",
+        "4": "Photo 5",
+        "5": "Photo 6"
+    };
+
+    $scope.ok = function () {
+        $uibModalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+})

@@ -96,6 +96,17 @@ appServices
             });
         });
       };
+      
+      self.forgetPassword = function (email) {
+        return $q(function(resolve, reject) {Restangular.one("/auth/forgetPassword/"+email)
+            .get()
+            .then(function () {
+              resolve('Demande de changement de mot de passe envoyé !');
+            }, function () {
+              reject('Erreur de connexion !');
+            });
+        });
+      };
 
         //self.register = function (username, email, password) {
       //  Restangular.one("/auth/signup")

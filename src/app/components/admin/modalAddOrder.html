@@ -1,0 +1,49 @@
+<div class="modal-header">
+    <h3 class="modal-title">Ajouter une commande</h3>
+</div>
+<div class="modal-body">
+
+    <form class="form-horizontal">
+        <fieldset>
+            <div class="form-group">
+                <label for="num" class="col-lg-2 control-label">Email du client</label>
+                <div class="col-lg-10">
+                    <div class="input-group formCustomer">
+                        <input autofocus="autofocus" type="text" required ng-model="order.email" placeholder="prenom.nom" class="form-control" pattern="^[a-z\-]+\.[a-z\-]+">
+                        <span style="color:white;background-color: #2196F3" class="input-group-addon">@insa-lyon.fr</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="p1" class="col-lg-2 control-label">Photo 1</label>
+                <div class="col-lg-10">
+                    <input ng-model="order.p1"  min="0"type="number" class="form-control" id="p2" placeholder="0">
+                </div>
+                <label for="p2" class="col-lg-2 control-label">Photo 2</label>
+                <div class="col-lg-10">
+                    <input ng-model="order.p2"  min="0"type="number" class="form-control" id="p2" placeholder="0">
+                </div>
+                <label for="p3" class="col-lg-2 control-label">Photo 3</label>
+                <div class="col-lg-10">
+                    <input ng-model="order.p3" min="0" type="number" class="form-control" id="p3" placeholder="0">
+                </div>
+                <label for="p4" class="col-lg-2 control-label">Photo 4</label>
+                <div class="col-lg-10">
+                    <input ng-model="order.p4"  min="0"type="number" class="form-control" id="p4" placeholder="0">
+                </div>
+                <label for="p5" class="col-lg-2 control-label">Photo 5</label>
+                <div class="col-lg-10">
+                    <input ng-model="order.p5" min="0" type="number" class="form-control" id="p5" placeholder="0">
+                </div>
+                <label for="p6" class="col-lg-2 control-label">Photo 6</label>
+                <div class="col-lg-10">
+                    <input ng-model="order.p6" min="0" type="number" class="form-control" id="p6" placeholder="0">
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-danger" type="button" ng-click="cancel()">Annuler</button>
+    <button  ng-class="{disabled : !formValid()}" class="btn btn-primary" type="button" ng-click="ok()">Ajouter</button>
+</div>

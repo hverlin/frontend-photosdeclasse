@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <p>Photo du groupe {{modalOptions.groupNum}}<a href="" style="float: right;" data-ng-click="ok();"><i class="fa fa-close"></i></a></p>
+     
+    
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div ng-repeat="(photoNum, photoUrl) in modalOptions.photos" class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{photoName[photoNum]}}</h3>
+                </div>
+                <div class="panel-body">
+                    <a href="{{photoUrl}}" rel="group" fancyboxable>
+                        <img style="margin: 5px 0 0 5px" alt="{{photoName[photoNum]}}" class="img-responsive" ng-src="assets/img/loader.gif" actual-src={{photoUrl}}>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <a class="btn btn-sm btn-primary" ui-sref="admin.upload({num:modalOptions.groupNum})" data-ng-click="ok();">Modifier les photos</a>
+</div>

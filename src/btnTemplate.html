@@ -1,0 +1,6 @@
+<div class="ui-grid-cell-contents" ng-if="row.entity.num">
+    <a class="btn btn-primary btn-sm" href="" ng-click=grid.appScope.showPhotos(row.entity.num) uib-popover="Voir les photos" popover-trigger="mouseenter" popover-placement="bottom" popover-popup-delay="500"><i class="fa fa-picture-o"></i> </a>
+    <a ng-if="!row.entity.ordersOpen" class="btn btn-info btn-sm" href="" ng-click=grid.appScope.beginOrders(row.entity.num) uib-popover="Ouvrir les commandes" popover-trigger="mouseenter" popover-placement="bottom" popover-popup-delay="500"></i><i class="fa fa-shopping-cart"></i> </a>
+    <a ng-if="row.entity.ordersOpen" class="btn btn-default btn-sm" href="" ng-click=grid.appScope.closeOrders(row.entity.num) uib-popover="Fermer les commandes" popover-trigger="mouseenter" popover-placement="bottom" popover-popup-delay="500"><i class="fa fa-hand-paper-o"></i> </a>
+    <a class="btn btn-success btn-sm" href="" ng-click=grid.appScope.createInvoice(row.entity.num) uib-popover="Créer la facture" popover-trigger="mouseenter" popover-placement="bottom" popover-popup-delay="500"><i class="fa fa-file-text-o"></i></a>
+</div>

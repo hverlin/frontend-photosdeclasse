@@ -1,0 +1,90 @@
+<div class="container">
+    <div class="row">
+        <h3><a ui-sref="admin.detailsClasses" class="btn btn-info"><i class="fa fa-chevron-left"> </i></a>
+            Upload des photos - Groupe {{group}} </h3>
+        <hr>
+        <div class="alert alert-dismissible alert-warning">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <h4>Attention !</h4>
+            <p>Pour modifier une photo, il faut d'abord la supprimer du serveur à l'aide la poubelle !</p>
+        </div>
+        <div class="col-md-3">
+            <div ng-show="uploader.isHTML5">
+                <div ng-repeat="photo in photos" style="margin: 10px 0 10px 0">
+                    <div nv-file-drop="" uploader="uploader" options="{ num: photo.num }" single class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Photo {{photo.num +1}}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <a href="{{photo.url}}" fancyboxable>
+                                <img class="img-responsive" ng-src="/assets/img/none.gif" alt="Photo {{photo.num +1 }}" actual-src={{photo.url}}>
+                            </a>
+
+                            <div uploader="uploader" style="text-align: center; margin-top: 5px">
+                                <span style="display: inline-block;" class="btn btn-default btn-sm btn-file btn-primary">
+                             Parcourir... <input type="file" nv-file-select="" options="{ num: photo.num }"
+                                                 uploader="uploader"/>
+                         </span>
+                                <button ng-click="deletePhoto(photo.num)" style="margin-left: 2px;" class="btn btn-default btn-sm"><i class="fa fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9" style="margin-bottom: 40px">
+            <div>Nombre de photos : {{ uploader.queue.length }} | <i class="fa fa-warning text-danger "></i> Taille max pour les photos : <b>5 Mo</b>
+
+                <div class="progress" style="">
+                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+                </div>
+                <button type="button" class="btn btn-success btn-s" ng-click="uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+                    Envoyer !
+                </button>
+                <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                    Tout retirer
+                </button>
+            </div>
+            <hr>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="30%">N° Photo</th>
+                        <th>Nom</th>
+                        <th ng-show="uploader.isHTML5">Taille</th>
+                        <th ng-show="uploader.isHTML5">Progression</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in uploader.queue">
+                        <td>{{ item.num + 1}}</td>
+                        <td>
+                            <strong>{{ item.file.name }}</strong>
+                            <!-- Image preview -->
+                            <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                        </td>
+                        <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                        <td ng-show="uploader.isHTML5">
+                            <div class="progress" style="margin-bottom: 0;">
+                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                            <span ng-show="item.isError">Erreur</i></span>
+                        </td>
+                        <td nowrap>
+                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                Retirer
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

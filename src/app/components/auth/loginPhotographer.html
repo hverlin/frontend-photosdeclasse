@@ -1,21 +1,21 @@
-<div class = "container">
+<div class="container">
     <div class="wrapper">
         <form ng-submit="login()" name="Login_Form" class="form-signin">
             <h3 class="form-signin-heading">Accès Photographe</h3>
 
             <div class="input-group formCustomer">
                 <span style="color:white;background-color: #2196F3" class="input-group-addon">Email</span>
-                <input  autofocus="autofocus" ng-model="email" type="email" class="form-control" name="email" placeholder="Email" required="" autofocus="" />
+                <input autofocus="autofocus" ng-model="email" type="email" class="form-control" name="email" placeholder="Email" required="" autofocus="" />
 
             </div>
 
             <div class="input-group formCustomer">
                 <span style="color:white;background-color: #2196F3" class="input-group-addon">Mot de passe</span>
                 <input ng-model="password" type="password" class="form-control" name="Password" placeholder="Mot de passe" required />
-
             </div>
 
-            <button class="btn btn-lg btn-primary btn-block"  type="submit" >Connexion</button>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
+            <a style="text-align: center;display: block;margin-top: 10px;" ui-sref="auth.forgetPassword">Mot de passe oublié ?</a>
         </form>
     </div>
 </div>

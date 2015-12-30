@@ -1,5 +1,5 @@
 <!-- Fixed navbar -->
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -16,20 +16,20 @@
                 <li ><a ui-sref="admin.orders">Commandes</a></li>
                 <li><a ui-sref="admin.photographers">Photographes <span class="sr-only">Photographes</span></a></li>
 
-                <li  class="dropdown" dropdown>
-                    <a href="" id="simple-dropdown"  class="dropdown-toggle" dropdown-toggle>Actions <span class="caret"></span></a>
-                    <ul class="dropdown-menu" dropdown-menu>
+                <li  class="dropdown" uib-dropdown>
+                    <a href="" id="simple-dropdown"  class="dropdown-toggle" uib-dropdown-toggle>Actions <span class="caret"></span></a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
                         <li><a href="" data-ng-click="addGrp()">Ajouter une classe</a></li>
                         <li><a href="" data-ng-click="deleteGroups()">Supprimer</a></li>
                         <li><a href=""  data-ng-click="copyEmail()">Copier les adresses email</a></li>
                         <li><a href=""  data-ng-click="copyEmailResp()">Copier les emails des responsables</a></li>
                         <li><a href="" data-ng-click="dowload()">Télécharger les photos</a></li>
+                        <li><a href="" data-ng-click="downloadInvoices()">Télécharger les factures</a></li>
                     </ul>
                 </li>
             </ul>
             <!-- Single button -->
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="" ng-click="openSettings()">Paramètres<span class="sr-only">Paramètres</span></a></li>
                 <li><a  ui-sref="admin.photographers">Déconnexion<span class="sr-only">Déconnexion</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
@@ -38,7 +38,7 @@
 
 
 <!--Main TABLE DETAILS-->
-<div style="padding: 64px 0 0;" >
+<div style="padding: 50px 0 0;" >
     <div ng-style="{height: getHeight() + 'px'}"  ui-grid="gridOptions" class="myGrid"
-         ui-grid-auto-resize  ui-grid-selection ui-grid-edit ></div>
+         ui-grid-auto-resize  ui-grid-selection ui-grid-edit ui-grid-grouping ></div>
 </div>

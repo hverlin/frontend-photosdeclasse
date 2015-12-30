@@ -1,76 +1,38 @@
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
+<!-- Fixed navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Menu</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Accueil</a>
+            <a class="navbar-brand" href="#">Photographe</a>
         </div>
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+                <li ng-class="{'active': myGroupState == false}"> <a href="" ng-click="changeState(false)">Groupes en attente</a></li>
+                <li ng-class="{'active': myGroupState == true}"><a  href="" ng-click="changeState(true)">Mes groupes </a></li>
+                <li  class="dropdown" uib-dropdown>
+                    <a href="" id="simple-dropdown"  class="dropdown-toggle" uib-dropdown-toggle>Actions <span class="caret"></span></a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li><a href=""  data-ng-click="copyEmail()">Copier les adresses email</a></li>
+                        <li><a href=""  data-ng-click="copyEmailResp()">Copier les emails des responsables</a></li>
+                    </ul>
+                </li>
             </ul>
+            <!-- Single button -->
             <ul class="nav navbar-nav navbar-right">
-                <li><a>{{user}}</a></li>
+                <li><a  ui-sref="admin.photographers">Déconnexion<span class="sr-only">Déconnexion</span></a></li>
             </ul>
-        </div>
+        </div><!--/.nav-collapse -->
     </div>
 </nav>
-<div style="padding: 50px">
-    <div class="row">
-        <div class="col-md-6">
-            <h2 class="text-center">Listes de mes groupes</h2>
-            <table st-table="displayedmygroups" st-safe-src="mygroups" class="table">
-                <thead>
-                <tr>
-                    <th st-sort="num" st-sort-default="true"># groupe</th>
-                    <th st-sort="lastName">Email Responsable</th>
-                    <th st-sort="birthDate">Téléphone Responsable</th>
-                    <th st-sort="balance">Etat</th>
-                    <th>Ajouter des photos</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="row in displayedmygroups">
-                    <td>{{row.num}}</td>
-                    <td>{{row.email}}</td>
-                    <td>{{row.phone}}</td>
-                    <td>
-                        <select id="title" name="title">
-                            <option value="" selected>{{row.status}}</option>
-                            <option value="Mr">1</option>
-                            <option value="Miss">2</option>
-                        </select>
-                    </td>
-                    <td><a class="btn btn-xs btn-primary" ui-sref="photographe.upload({ num: row.num })">Ajouter des
-                        photos</a></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-4 col-md-offset-2">
-            <h2 class="text-center">Groupes en attente</h2>
-            <table st-table="displayedothergroups" st-safe-src="othergroups" class="table">
-                <thead>
-                <tr>
-                    <th st-sort="num" st-sort-default="true"># groupe</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="row in displayedothergroups">
-                    <td>{{row.num}}</td>
-                    <td>
-                        <btn ng-click="chooseGroup(row.num)" class="btn btn-xs btn-primary">Choisir</btn>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
 
+
+<!--Main TABLE DETAILS-->
+<div style="padding: 50px 0 0;" >
+    <div ng-style="{height: getHeight() + 'px'}"  ui-grid="gridOptions" class="myGrid"
+         ui-grid-auto-resize  ui-grid-selection ui-grid-edit ></div>
 </div>
