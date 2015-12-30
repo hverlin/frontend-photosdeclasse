@@ -1,0 +1,35 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                <span class="sr-only">Menu</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="" ui-sref="customer.order({auth: auth})" class="navbar-brand">Commandes du groupe {{group}}</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+            <ul class="nav navbar-nav">
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <form action="">
+                        <button class="btn btn-default navbar-btn" href="" ng-click="export()"><i class="fa fa-file-o"></i> Liste au format PDF</button>
+                    </form>
+                </li>
+                <li><a href="" ui-sref="customer.order({auth: auth})">Retour à la commande</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+
+<!--Main TABLE DETAILS-->
+<div style="padding: 50px 0 0;">
+    <div ng-style="{height: getHeight() + 'px'}" ui-grid="gridOptions" class="myGrid" ui-grid-exporter ui-grid-auto-resize></div>
+</div>

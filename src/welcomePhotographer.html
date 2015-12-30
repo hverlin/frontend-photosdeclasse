@@ -1,8 +1,12 @@
-<h4>Bienvenue !</h4>
+<div class="modal-header">
+    <h3>Bienvenue !</h3>
+</div>
+<div class="modal-body">
+<p>Si c'est la première fois que tu viens, nous t'invitons à consulter le tutoriel :
+</p>
+<p style='text-align:center'><a href="https://frontend-photos-hverlin.c9users.io/tuto" target="_blank">lien vers le tutoriel</a></p>
+</div>
 
-<p>Si c'est la première fois que tu viens, nous t'invitons à consulter le tutoriel : <a href="http://frontend-photos-hverlin.c9users.io/tuto">lien vers le tutoriel</a></p>
-
-
-<div class="ngdialog-buttons">
-    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(1)">Ok, c'est fait !</button>
+<div class="modal-footer">
+    <a class="btn btn btn-primary" data-ng-click="$close();">Ok !</a>
 </div>

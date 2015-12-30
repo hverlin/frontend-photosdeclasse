@@ -3,6 +3,11 @@ photosApp.controller('orderCtrl', function ($scope, $state, $stateParams, custom
     $scope.photos = {};
     $scope.orderInput = {};
     $scope.auth = $stateParams.auth;
+    
+    if($scope.auth === undefined){
+        $state.go("auth.authOrder")
+    }
+    
     customerService.getCustomerFromAuthToken($scope.auth).then(function (user) {
 
         $scope.group = user.group.num;
@@ -14,7 +19,6 @@ photosApp.controller('orderCtrl', function ($scope, $state, $stateParams, custom
             }
 
             if (user.order) {
-
                 $scope.modifyOrder = true;
 
                 $scope.orderInput[0] = user.order.photo_1;
@@ -62,7 +66,6 @@ photosApp.controller('orderCtrl', function ($scope, $state, $stateParams, custom
         customerService.createOrder($scope.auth, orders).then(function (order) {
             SweetAlert.swal("Commande enregistrée !", "Un mail avec le résumé de ta commande t'a été envoyé. Si tu t'es trompé(e), tu peux modifier ta commande. Dans le cas contraire, tu peux fermer la page !", "success");
             $scope.modifyOrder = true;
-
         });
     };
 });

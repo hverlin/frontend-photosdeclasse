@@ -1,4 +1,7 @@
-<h4>Voici le mail à envoyer au groupe {{dialog.num}}</h4>
+<div class="modal-header">
+    <p>Voici le mail à envoyer au groupe {{dialog.num}} </p>
+</div>
+<div class="modal-body">
 <p>
 Bonjour,<br>
 <br>
@@ -23,5 +26,9 @@ Cordialement,<br>
 XXXXXX, pour Graines d'Images
 <br><br>
 </p>
-<div class="ngdialog-buttons"><button type="button" class="ngdialog-button ngdialog-button-default" ng-click="closeThisDialog()">Annuler</button>
-                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(1)">Ok, c'est fait ! :)</button></div>
+</div>
+
+<div class="modal-footer">
+    <a class="btn btn btn-default" data-ng-click="$dismiss()">Annuler</a>
+    <a class="btn btn btn-primary" data-ng-click="$close();">Ok, c'est fait ! :)</a>
+</div>

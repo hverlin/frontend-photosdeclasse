@@ -156,6 +156,18 @@ function manageGroup(Restangular, $log, $q, AuthService, Notification) {
             });
         });
     };
+    
+    
+    self.removePhotographerFromGroup = function (photographer, group) {
+        return $q(function (resolve, reject) {
+            Restangular.one('/photographer/removeGroup?photographer='+photographer.id+"&group="+group).customPUT({}).then(function () {
+                resolve();
+            }, function () {
+                reject('error in choose group');
+            });
+        });
+    };
+    
 
     self.updateGroup = function (group, email, phone, state) {
         return $q(function (resolve, reject) {

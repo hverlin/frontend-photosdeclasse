@@ -7,7 +7,10 @@ function manageCustomer(Restangular, $log, $q) {
 
     self.createCustomer = function (email, grpNumber) {
         return $q(function (resolve, reject) {
-            Restangular.one('/customer/').customPOST({email: email, group: grpNumber}).then(function () {
+            Restangular.one('/customer/').customPOST({
+                email: email,
+                group: grpNumber
+            }).then(function () {
                 $log.info('add group ' + email);
                 resolve('creation de l utilsateur réussie !');
             });
@@ -17,9 +20,9 @@ function manageCustomer(Restangular, $log, $q) {
     };
 
 
-    self.getCustomerFromAuthToken = function(authToken) {
+    self.getCustomerFromAuthToken = function (authToken) {
         return $q(function (resolve, reject) {
-            Restangular.one('/customer?auth_token='+authToken).customGET().then(function (data) {
+            Restangular.one('/customer?auth_token=' + authToken).customGET().then(function (data) {
                 resolve(data.plain());
             });
         }, function () {
@@ -27,9 +30,9 @@ function manageCustomer(Restangular, $log, $q) {
         });
     };
 
-    self.getUploadedPhotos = function(authToken) {
+    self.getUploadedPhotos = function (authToken) {
         return $q(function (resolve, reject) {
-            Restangular.one('/customer/photos?auth_token='+authToken).get()
+            Restangular.one('/customer/photos?auth_token=' + authToken).get()
                 .then(function (data) {
                     resolve(data.plain());
                 }, function () {
@@ -38,13 +41,28 @@ function manageCustomer(Restangular, $log, $q) {
         });
     };
 
-    self.downloadPhotoByNum = function(authToken, photoNum) {
-        return config.api.url+'/customer/photo?number='+photoNum+'&auth_token='+authToken;
+
+    self.getGroupList = function (authToken) {
+        return $q(function (resolve, reject) {
+            Restangular.one('/customer/group?auth_token=' + authToken).get()
+                .then(function (data) {
+                    resolve(data.plain());
+                }, function () {
+                    reject('Erreur de connexion groupList');
+                });
+        });
     };
 
-    self.createOrder = function(authToken, order) {
+
+    self.downloadPhotoByNum = function (authToken, photoNum) {
+        return config.api.url + '/customer/photo?number=' + photoNum + '&auth_token=' + authToken;
+    };
+
+    self.createOrder = function (authToken, order) {
         return $q(function (resolve, reject) {
-            Restangular.one('/order?auth_token='+authToken).customPOST({order : order})
+            Restangular.one('/order?auth_token=' + authToken).customPOST({
+                    order: order
+                })
                 .then(function (data) {
                     resolve(data.plain());
                 }, function () {

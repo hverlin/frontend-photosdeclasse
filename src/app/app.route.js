@@ -60,6 +60,12 @@ photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHe
                 url: "/order?auth",
                 templateUrl: '/app/components/customer/orderView.html',
                 controller: 'orderCtrl'
+            },
+            {
+                name: 'orderList',
+                url: "/group?auth",
+                templateUrl: '/app/components/customer/ordersList.html',
+                controller: 'ordersListCtrl'
             }]
         })
         .state({

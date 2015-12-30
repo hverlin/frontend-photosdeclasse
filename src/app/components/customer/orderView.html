@@ -3,7 +3,7 @@
         <h2>Sélectionne les photos que tu souhaites commander !</h2>
         <ul>
             <li>Email: {{email}}</li>
-            <li>Groupe : {{group}}</li>
+            <li>Groupe : {{group}} | <a ui-sref="customer.orderList({auth: auth})" >Voir les commandes de ton groupe</a></li>
         </ul>
     </div>
     <div ng-if="!modifyOrder" class="alert  alert-success">
@@ -35,9 +35,6 @@
                 <br> Montant à donner à ton responsable de groupe : <b>{{totalEuros() | currency:''}}</b>&nbsp;€</p>
             <btn ng-if="!modifyOrder" href="" class="btn btn-success" ng-disabled="totalPhotos() <= 0" ng-click="submitOrder()">Valider</btn>
             <btn ng-if="modifyOrder" href="" class="btn btn-success" ng-disabled="totalPhotos() <= 0" ng-click="submitOrder()">Valider la modification</btn>
-
         </div>
-
     </div>
-
 </div>

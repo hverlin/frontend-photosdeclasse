@@ -11,12 +11,13 @@ function managePhotographers(Restangular, $log, $q) {
                         $log.info('add photographer ' + email);
                         resolve(data);
                     });
-                })
+                });
         }, function () {
             reject('Erreur de connexion !');
-        })
+        });
     };
-
+    
+    
     self.getPhotographers = function () {
         return $q(function (resolve, reject) {
             Restangular.one('/photographers').getList()
@@ -24,8 +25,8 @@ function managePhotographers(Restangular, $log, $q) {
                     resolve(data.plain());
                 }, function () {
                     reject('Erreur de connexion !');
-                })
-        })
+                });
+        });
     };
 
     self.removePhotographer = function (email) {
@@ -39,8 +40,8 @@ function managePhotographers(Restangular, $log, $q) {
                     });
                 }, function () {
                     reject('Erreur de connexion !');
-                })
-        })
+                });
+        });
     };
 
 }

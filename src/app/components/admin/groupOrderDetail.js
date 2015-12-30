@@ -44,10 +44,6 @@ photosApp.controller('ordersGroupController', ['$scope', 'groupService', '$filte
             displayName: "Etudiant",
             width: "20%",
             enableCellEdit: false,
-            sortingAlgorithm: util.naturalSort,
-            filter: {
-                condition: uiGridConstants.filter.EXACT
-            },
             sort: {
                 direction: uiGridConstants.ASC
             }

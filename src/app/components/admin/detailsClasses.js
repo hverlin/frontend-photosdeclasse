@@ -182,7 +182,8 @@ photosApp.controller('detailsClasses', ['$scope', 'groupService', '$filter', 'ui
             }, {
                 name: 'photographer.email',
                 displayName: 'Photographe',
-                enableColumnMenu: false
+                enableColumnMenu: false,
+                cellTemplate: 'deletePhotographer.html'
             }, {
                 name: 'Actions',
                 enableFiltering: false,
@@ -196,6 +197,21 @@ photosApp.controller('detailsClasses', ['$scope', 'groupService', '$filter', 'ui
         groupService.getGroups().then(function (data) {
             $scope.gridOptions.data = data;
         });
+
+        $scope.removePhotographer = function (photographer, group) {
+            if (confirm("Supprimer l'attribution du photographe ? (" + photographer.email + ")")) {
+                $scope.groupService.removePhotographerFromGroup(photographer, group).then(function () {
+                    groupService.getGroups().then(function (data) {
+                        $scope.gridOptions.data = 'data';
+                        $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
+                        $timeout(function () {
+                            $scope.gridOptions.data = data;
+                            $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
+                        }, 10);
+                    });
+                });
+            }
+        };
 
 
         $scope.addGrp = function () {

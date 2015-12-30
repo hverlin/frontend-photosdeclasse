@@ -1,5 +1,5 @@
-photosApp.controller('dashboardCtrl', ['$scope', 'groupService', '$filter', 'uiGridConstants', 'SweetAlert', 'i18nService', 'UserService', 'ngDialog', 'Notification', '$state', '$stateParams',
-    function ($scope, groupService, $filter, uiGridConstants, SweetAlert, i18nService, UserService, ngDialog, Notification, $state, $stateParams) {
+photosApp.controller('dashboardCtrl', ['$scope', 'groupService', '$filter', 'uiGridConstants', 'SweetAlert', 'i18nService', 'UserService', 'Notification', '$state', '$stateParams', '$uibModal',
+    function ($scope, groupService, $filter, uiGridConstants, SweetAlert, i18nService, UserService, Notification, $state, $stateParams, $uibModal) {
         $scope.groupService = groupService;
         i18nService.setCurrentLang('fr');
 
@@ -57,7 +57,7 @@ photosApp.controller('dashboardCtrl', ['$scope', 'groupService', '$filter', 'uiG
                     if (newValue === oldValue) return;
                     if (colDef.name === 'status') {
                         if (oldValue === 'Commande en cours' || oldValue === 'Commande terminée' || oldValue === 'Argent récupéré' || oldValue === 'Achat des photos' || oldValue === 'Terminé') {
-                            Notification.error("Vous ne pouvez plus modifier l'état une fois la commande lancée ou terminée")
+                            Notification.error("Vous ne pouvez plus modifier l'état une fois la commande lancée ou terminée");
                             rowEntity.status = oldValue;
                         }
                         else {
@@ -205,9 +205,11 @@ photosApp.controller('dashboardCtrl', ['$scope', 'groupService', '$filter', 'uiG
 
         $scope.groupService.getMyGroups().then(function (groups) {
             if (groups.length === 0) {
-                ngDialog.open({
-                    template: 'welcomePhotographer.html'
+
+                $uibModal.open({
+                    templateUrl: 'welcomePhotographer.html'
                 });
+
                 $scope.groupService.getOtherGroups().then(function (data) {
                     $scope.gridOptions.data = data;
                 });
@@ -256,26 +258,21 @@ photosApp.controller('dashboardCtrl', ['$scope', 'groupService', '$filter', 'uiG
             }
         };
 
-
         $scope.chooseGroup = function (num) {
-            $scope.dialog = {
-                num: num
-            };
-            var dialog = ngDialog.open({
-                template: 'mailDialog.html',
-                scope: $scope
+            var modalInstance = $uibModal.open({
+                templateUrl: 'mailDialog.html',
+                keyboard: false,
+                backdrop: 'static'
             });
-            dialog.closePromise.then(function (data) {
-                if (data.value === 1) {
-                    groupService.chooseGroup(num).then(function () {
-                        groupService.getOtherGroups().then(function (data) {
-                            $scope.gridOptions.data = data;
-                            $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
-                            SweetAlert.swal("Super !", "Merci pour ton aide !", "success");
-                        });
-                    });
-                }
 
+            modalInstance.result.then(function () {
+                groupService.chooseGroup(num).then(function () {
+                    groupService.getOtherGroups().then(function (data) {
+                        $scope.gridOptions.data = data;
+                        $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
+                        SweetAlert.swal("Super !", "Merci pour ton aide !", "success");
+                    });
+                });
             });
         };
 
