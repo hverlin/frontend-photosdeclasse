@@ -7,7 +7,7 @@ photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHe
         .state({
             name: 'faq',
             url: "/",
-            template: '<script>window.location="https://frontend-photos-hverlin.c9users.io/faq"</script>',
+            template: '<script>window.location="'+config.frontend.url+'/faq"</script>',
             data: {
                 requireLogin: false
             }

@@ -3,6 +3,9 @@ var config = {
     photoPrice: 3,
     api: {
         url: "https://backend-graines-hverlin.c9.io/v1"
+    },
+    frontend:{
+        url:"http://commandes-photos.grainesdimages.fr"
     }
 };
 

@@ -42,10 +42,10 @@ pipes.minifiedFileName = function () {
 
 pipes.builtAppScriptsProd = function () {
     return pipes.orderedAppScripts()
-        //.pipe(plugins.sourcemaps.init())
+        .pipe(plugins.sourcemaps.init())
         .pipe(plugins.concat('app.min.js'))
-        //.pipe(plugins.uglify())
-        //.pipe(plugins.sourcemaps.write())
+        .pipe(plugins.uglify())
+        .pipe(plugins.sourcemaps.write())
         .pipe(gulp.dest(paths.distScriptsProd));
 };
 
@@ -77,7 +77,7 @@ pipes.builtVendorScriptsProd = function () {
         }
     )).pipe(pipes.orderedVendorScripts())
         .pipe(plugins.concat('vendor.min.js'))
-        //.pipe(plugins.uglify())
+        .pipe(plugins.uglify())
         .pipe(gulp.dest(paths.distScriptsProd));
 };
 
