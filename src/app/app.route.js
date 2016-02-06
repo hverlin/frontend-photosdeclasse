@@ -5,8 +5,16 @@ photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHe
     stateHelperProvider
 
         .state({
-            name: 'welcome',
+            name: 'faq',
             url: "/",
+            template: '<script>window.location="https://frontend-photos-hverlin.c9users.io/faq"</script>',
+            data: {
+                requireLogin: false
+            }
+        })
+        .state({
+            name: 'welcome',
+            url: "/choice",
             templateUrl: '/app/components/welcome/welcome.html',
             data: {
                 requireLogin: false
@@ -145,7 +153,7 @@ photosApp.config(['stateHelperProvider', '$urlRouterProvider', function (stateHe
             controller: [
                 '$state',
                 function ($state) {
-                    $state.go('welcome');
+                    $state.go('faq');
                 }
             ]
         });

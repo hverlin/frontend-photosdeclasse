@@ -23,8 +23,9 @@ var photosApp = angular.module('photosApp', [
     'ui.grid.grouping'
 ])
 
-.config(['RestangularProvider', function (RestangularProvider) {
+.config(['RestangularProvider', '$locationProvider', function(RestangularProvider, $locationProvider) {
     RestangularProvider.setBaseUrl(config.api.url);
+    //$locationProvider.html5Mode(true);
 }])
 
 .run(['Restangular', '$http', '$state', 'Notification', '$rootScope', '$log', 'AuthService', '$timeout', start]);
@@ -35,7 +36,7 @@ function start(Restangular, $http, $state, Notification, $rootScope, $log, AuthS
         $http.defaults.headers.common.Authorization = 'Bearer ' + AuthService.getToken();
     }
 
-    Restangular.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
+    Restangular.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
         // log every response from the server in debug (filter )
         // console.debug(data);
 
@@ -50,16 +51,17 @@ function start(Restangular, $http, $state, Notification, $rootScope, $log, AuthS
 
 
     Restangular.setErrorInterceptor(
-        function (response) {
+        function(response) {
             // https://fr.wikipedia.org/wiki/Liste_des_codes_HTTP
-           // Notification.error(response.status);
+            // Notification.error(response.status);
             if (response.status == 401) {
                 Notification.error("Veuillez vous authentifier.");
                 AuthService.logout();
                 console.log(config.api.url + '/admin')
-                if(response.config.url == (config.api.url + '/admin')) {
+                if (response.config.url == (config.api.url + '/admin')) {
                     $state.transitionTo("auth.authAdmin");
-                } else {
+                }
+                else {
                     $state.transitionTo("welcome");
                 }
             }
@@ -76,7 +78,7 @@ function start(Restangular, $http, $state, Notification, $rootScope, $log, AuthS
         }
     );
 
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
         if (toState.data) {
             var requireLogin = toState.data.requireLogin;
         }
@@ -88,8 +90,8 @@ function start(Restangular, $http, $state, Notification, $rootScope, $log, AuthS
         }
 
         if ((toState.name == 'auth.authAdmin') && AuthService.isAuthed()) {
-            Restangular.one('/admin').get().then(function () {
-                $timeout(function () {
+            Restangular.one('/admin').get().then(function() {
+                $timeout(function() {
                     $state.transitionTo("admin.detailsClasses");
                 }, 10);
             });
@@ -100,7 +102,7 @@ function start(Restangular, $http, $state, Notification, $rootScope, $log, AuthS
                 Restangular.one('/admin').get();
             };
         }
-        
+
     });
 
 }
