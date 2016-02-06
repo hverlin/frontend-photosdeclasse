@@ -130,6 +130,10 @@ gulp.task('watch-html', function () {
     gulp.watch(paths.html, ['move-html']).on('change', browserSync.reload);
 });
 
+gulp.task('watch-tuto', function () {
+    gulp.watch(paths.tuto, ['moveTuto']).on('change', browserSync.reload);
+});
+
 gulp.task('watch-img', function () {
     gulp.watch(paths.img, ['moveImg']).on('change', browserSync.reload);
 });
@@ -160,4 +164,4 @@ gulp.task('serve', ['build-js-app'], function () {
 });
 
 // ------------------- builds all the environment ------------------------------------
-gulp.task('default', ['build-js-vendors', 'less', 'move-html', 'moveImg', 'moveFont', 'moveFAQ', 'moveTuto', 'watch-less', 'watch-html', 'watch-img', 'serve']);
+gulp.task('default', ['build-js-vendors', 'less', 'move-html', 'moveImg', 'moveFont', 'moveFAQ', 'moveTuto', 'watch-tuto', 'watch-less', 'watch-html', 'watch-img', 'serve']);

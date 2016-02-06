@@ -25,7 +25,7 @@ photosApp.controller('ordersListCtrl', ['$scope', 'customerService', 'uiGridCons
             exporterPdfMaxGridWidth: 420,
             exporterPdfCustomFormatter: function (docDefinition) {
                 docDefinition.styles.headerStyle = {
-                    fontSize: 22,
+                    fontSize: 15,
                     bold: true,
                     margin: [10, 10, 10, 10]
                 };
@@ -39,6 +39,12 @@ photosApp.controller('ordersListCtrl', ['$scope', 'customerService', 'uiGridCons
                 text: "Récapitulatif des commandes",
                 style: 'headerStyle'
             },
+            exporterFieldCallback: function (grid, row, col, value) {
+                if (col.name === 'order.total_eur') {
+                    value = value + '€';
+                }
+                return value;
+            },
             enableColumnResizing: true,
             enableFiltering: false,
             showGridFooter: false,
@@ -51,11 +57,12 @@ photosApp.controller('ordersListCtrl', ['$scope', 'customerService', 'uiGridCons
             }
         };
 
+
         // return the height of the grid
         $scope.getHeight = util.gridHeight;
 
         $(window).on("resize.doResize", _.debounce(function () {
-          //  alert(window.innerWidth);
+            //  alert(window.innerWidth);
 
             $scope.$apply(function () {
                 if (window.innerWidth < 700) {
@@ -82,9 +89,6 @@ photosApp.controller('ordersListCtrl', ['$scope', 'customerService', 'uiGridCons
         $scope.$on("$destroy", function () {
             $(window).off("resize.doResize"); //remove the handler added earlier
         });
-        
-        
-        
 
 
         $scope.gridOptions.rowIdentity = function (row) {
@@ -109,6 +113,7 @@ photosApp.controller('ordersListCtrl', ['$scope', 'customerService', 'uiGridCons
         }, {
             name: 'order.photo_1',
             displayName: "Photo 1",
+            enableColumnMenu: false,
             aggregationType: uiGridConstants.aggregationTypes.sum
         }, {
             name: 'order.photo_2',
@@ -140,34 +145,34 @@ photosApp.controller('ordersListCtrl', ['$scope', 'customerService', 'uiGridCons
             name: 'order.total',
             displayName: 'Total',
             enableColumnMenu: false,
-            aggregationType: uiGridConstants.aggregationTypes.sum,
+            aggregationType: uiGridConstants.aggregationTypes.sum
         }, {
             name: 'order.total_eur',
             displayName: 'Total €',
             enableColumnMenu: false,
             cellTemplate: '<div class="ui-grid-cell-contents">{{ COL_FIELD | currency }}</div>',
-            aggregationType: uiGridConstants.aggregationTypes.sum,
+            aggregationType: uiGridConstants.aggregationTypes.sum
         }];
 
         customerService.getGroupList($scope.auth).then(function (data) {
             $scope.gridOptions.data = data;
             if (window.innerWidth < 700) {
-                    $scope.gridApi.grid.columns[2].hideColumn();
-                    $scope.gridApi.grid.columns[3].hideColumn();
-                    $scope.gridApi.grid.columns[4].hideColumn();
-                    $scope.gridApi.grid.columns[5].hideColumn();
-                    $scope.gridApi.grid.columns[6].hideColumn();
-                    $scope.gridApi.grid.columns[7].hideColumn();
-                }
-                else {
-                    $scope.gridApi.grid.columns[2].showColumn();
-                    $scope.gridApi.grid.columns[3].showColumn();
-                    $scope.gridApi.grid.columns[4].showColumn();
-                    $scope.gridApi.grid.columns[5].showColumn();
-                    $scope.gridApi.grid.columns[6].showColumn();
-                    $scope.gridApi.grid.columns[7].showColumn();
-                }
-                $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                $scope.gridApi.grid.columns[2].hideColumn();
+                $scope.gridApi.grid.columns[3].hideColumn();
+                $scope.gridApi.grid.columns[4].hideColumn();
+                $scope.gridApi.grid.columns[5].hideColumn();
+                $scope.gridApi.grid.columns[6].hideColumn();
+                $scope.gridApi.grid.columns[7].hideColumn();
+            }
+            else {
+                $scope.gridApi.grid.columns[2].showColumn();
+                $scope.gridApi.grid.columns[3].showColumn();
+                $scope.gridApi.grid.columns[4].showColumn();
+                $scope.gridApi.grid.columns[5].showColumn();
+                $scope.gridApi.grid.columns[6].showColumn();
+                $scope.gridApi.grid.columns[7].showColumn();
+            }
+            $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
         });
 
 
