@@ -1,12 +1,12 @@
 photosApp.controller('dashboardCtrl', ['$scope', 'groupService', '$filter', 'uiGridConstants', 'SweetAlert', 'i18nService', 'UserService', 'Notification', '$state', '$stateParams', '$uibModal',
-    function ($scope, groupService, $filter, uiGridConstants, SweetAlert, i18nService, UserService, Notification, $state, $stateParams, $uibModal) {
+    function($scope, groupService, $filter, uiGridConstants, SweetAlert, i18nService, UserService, Notification, $state, $stateParams, $uibModal) {
         $scope.groupService = groupService;
         i18nService.setCurrentLang('fr');
 
         $scope.myGroupState = false;
 
 
-        $scope.changeState = function (myGroupState) {
+        $scope.changeState = function(myGroupState) {
             if ($scope.myGroupState === myGroupState) return;
 
             $scope.myGroupState = myGroupState;
@@ -17,7 +17,7 @@ photosApp.controller('dashboardCtrl', ['$scope', 'groupService', '$filter', 'uiG
                 $scope.gridApi.grid.columns[6].hideColumn();
                 $scope.gridApi.grid.columns[5].hideColumn();
                 $scope.gridApi.grid.columns[4].hideColumn();
-                groupService.getOtherGroups().then(function (data) {
+                groupService.getOtherGroups().then(function(data) {
                     $scope.gridOptions.data = data;
                     $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
                 });
@@ -30,7 +30,7 @@ photosApp.controller('dashboardCtrl', ['$scope', 'groupService', '$filter', 'uiG
                 $scope.gridApi.grid.columns[4].showColumn();
                 Notification.success("Rappel : N'oublie pas de modifier l'état des groupes !");
 
-                $scope.groupService.getMyGroups().then(function (data) {
+                $scope.groupService.getMyGroups().then(function(data) {
                     $scope.gridOptions.data = data;
                     $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
                 });
@@ -50,10 +50,10 @@ photosApp.controller('dashboardCtrl', ['$scope', 'groupService', '$filter', 'uiG
             rowHeight: 35,
             enableColumnMenu: false,
             enableHorizontalScrollbar: uiGridConstants.scrollbars.NEVER,
-            onRegisterApi: function (gridApi) {
+            onRegisterApi: function(gridApi) {
                 $scope.gridApi = gridApi;
 
-                gridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {
+                gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef, newValue, oldValue) {
                     if (newValue === oldValue) return;
                     if (colDef.name === 'status') {
                         if (oldValue === 'Commande en cours' || oldValue === 'Commande terminée' || oldValue === 'Argent récupéré' || oldValue === 'Achat des photos' || oldValue === 'Terminé') {
@@ -65,7 +65,7 @@ photosApp.controller('dashboardCtrl', ['$scope', 'groupService', '$filter', 'uiG
                         }
                     }
                     else if (colDef.name === 'emailResponsable') {
-                        groupService.updateGroup(rowEntity.num, newValue, null, null);
+                        groupService.updateGroup(rowEntity.num, newValue, null, null).then();
                     }
                     else if (colDef.name === 'phoneNumber') {
                         groupService.updateGroup(rowEntity.num, null, newValue, null);
@@ -79,10 +79,10 @@ photosApp.controller('dashboardCtrl', ['$scope', 'groupService', '$filter', 'uiG
         // return the height of the grid
         $scope.getHeight = util.gridHeight;
 
-        $scope.gridOptions.rowIdentity = function (row) {
+        $scope.gridOptions.rowIdentity = function(row) {
             return row.id;
         };
-        $scope.gridOptions.getRowIdentity = function (row) {
+        $scope.gridOptions.getRowIdentity = function(row) {
             return row.id;
         };
 
@@ -193,24 +193,24 @@ photosApp.controller('dashboardCtrl', ['$scope', 'groupService', '$filter', 'uiG
             enableColumnMenu: false,
             enableSorting: false,
             visible: false,
-            cellTemplate: '<div class="ui-grid-cell-contents"><button ng-class="{disabled: grid.appScope.uploadDisabled(row) == true}" class="btn btn-primary btn-sm" ng-click="grid.appScope.uploadPhotos(row.entity.emailResponsable, row.entity.num)" >Uploader les photos</button ></div>'
+            cellTemplate: '<div class="ui-grid-cell-contents"><button ng-class="{disabled: grid.appScope.uploadDisabled(row) == true}" class="btn btn-primary btn-sm" ng-click="grid.appScope.uploadPhotos(row, row.entity.num)" >Uploader les photos</button ></div>'
         }];
 
         $scope.gridOptions.columnDefs = $scope.columns;
 
 
-        $scope.uploadDisabled = function (row) {
+        $scope.uploadDisabled = function(row) {
             return (row.entity.ordersOpen === true || row.entity.status === 'Commande en cours' || row.entity.status === 'Commande terminée' || row.entity.status === 'Argent récupéré' || row.entity.status === 'Achat des photos' || row.entity.status === 'Terminé');
         };
 
-        $scope.groupService.getMyGroups().then(function (groups) {
+        $scope.groupService.getMyGroups().then(function(groups) {
             if (groups.length === 0) {
 
                 $uibModal.open({
                     templateUrl: 'welcomePhotographer.html'
                 });
 
-                $scope.groupService.getOtherGroups().then(function (data) {
+                $scope.groupService.getOtherGroups().then(function(data) {
                     $scope.gridOptions.data = data;
                 });
 
@@ -224,7 +224,7 @@ photosApp.controller('dashboardCtrl', ['$scope', 'groupService', '$filter', 'uiG
         });
 
 
-        $scope.copyEmail = function () {
+        $scope.copyEmail = function() {
             var groups = $scope.gridApi.selection.getSelectedRows();
             var text = "";
             for (var i = 0; i < groups.length; i++) {
@@ -233,7 +233,7 @@ photosApp.controller('dashboardCtrl', ['$scope', 'groupService', '$filter', 'uiG
             window.prompt("Copier : Ctrl+C, Entrer", text);
         };
 
-        $scope.copyEmailResp = function () {
+        $scope.copyEmailResp = function() {
             var groups = $scope.gridApi.selection.getSelectedRows();
             var text = "";
             for (var i = 0; i < groups.length; i++) {
@@ -247,27 +247,33 @@ photosApp.controller('dashboardCtrl', ['$scope', 'groupService', '$filter', 'uiG
         $scope.user = UserService.currentUser.email;
 
 
-        $scope.uploadPhotos = function (email, num) {
-            if (email === "" || email === undefined) {
+        $scope.uploadPhotos = function(row, num) {
+            if (row.entity.emailResponsable === "" || row.entity.emailResponsable === undefined) {
                 Notification.error("Merci de donner l'email du responsable avant d'uploader les photos !");
+                return;
             }
-            else {
-                $state.go("photographe.upload", {
-                    num: num
-                });
+            
+            if(row.entity.ordersOpen === true || row.entity.status === 'Commande en cours' || row.entity.status === 'Commande terminée' || row.entity.status === 'Argent récupéré' || row.entity.status === 'Achat des photos' || row.entity.status === 'Terminé'){
+                Notification.error("Les commandes sont en cours ou terminées, il n'est pas possible d'envoyer de nouvelles photos. Contactez le bureau en cas de soucis.");
+
             }
+
+            $state.go("photographe.upload", {
+                num: num
+            });
+
         };
 
-        $scope.chooseGroup = function (num) {
+        $scope.chooseGroup = function(num) {
             var modalInstance = $uibModal.open({
                 templateUrl: 'mailDialog.html',
                 keyboard: false,
                 backdrop: 'static'
             });
 
-            modalInstance.result.then(function () {
-                groupService.chooseGroup(num).then(function () {
-                    groupService.getOtherGroups().then(function (data) {
+            modalInstance.result.then(function() {
+                groupService.chooseGroup(num).then(function() {
+                    groupService.getOtherGroups().then(function(data) {
                         $scope.gridOptions.data = data;
                         $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
                         SweetAlert.swal("Super !", "Merci pour ton aide !", "success");
