@@ -1,16 +1,26 @@
-<div class="container">
+<div class="container" ng-cloak>
     <div class="jumbotron" style="margin-top:10px">
         <h2>Sélectionne les photos que tu souhaites commander !</h2>
         <ul>
             <li>Email: {{email}}</li>
-            <li>Groupe : {{group}} | <a ui-sref="customer.orderList({auth: auth})" >Voir les commandes de ton groupe</a></li>
+            <li>Groupe : {{group}} | <a ui-sref="customer.orderList({auth: auth})">Voir les commandes de ton groupe</a></li>
         </ul>
     </div>
-    <div ng-if="!modifyOrder" class="alert  alert-success">
+    <div ng-if="!modifyOrder && ordersOpen" class="alert  alert-success">
         Note : tu peux cliquer sur les miniatures pour les voir en plus grand. Les photos seront imprimées en 20x30cm.
     </div>
-    <div ng-if="modifyOrder" class="alert  alert-success">
+    <div ng-if="modifyOrder && ordersOpen" class="alert  alert-success">
         Note : Voici l'état de ta commande, tu peux encore la modifier si tu le souhaites !
+    </div>
+    <div ng-if="!ordersOpen && group" class="alert  alert-warning">
+        <b>Les commandes sont terminées pour ton groupe.</b>
+        <br> Si tu souhaites modifier ta commande, contacte-nous à grainesdimages@gmail.com, et/ou informe ton responsable.
+    </div>
+    <div class="row" ng-if="!ordersOpen">
+        <div class="col-md-12" style="margin-bottom:20px; text-align:center">
+            <p>Nombre de photos choisies : <b>{{totalPhotos()}}</b>
+                <br> Montant à donner à ton responsable de groupe : <b>{{totalEuros() | currency:''}}</b>&nbsp;€</p>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-3" ng-repeat="(photoNum, photoUrl) in photos">
@@ -22,19 +32,23 @@
                     <a href={{photoUrl}} rel="group" fancyboxable>
                         <img alt="{{photoName[photoNum]}}" class="img-responsive" ng-src="assets/img/loader.gif" actual-src={{photoUrl}}>
                     </a>
-                    <select ng-model="orderInput[photoNum]" class="form-control" ng-options="n for n in [] | range:0:10">
+                    <select ng-if="ordersOpen" ng-model="orderInput[photoNum]" class="form-control" ng-options="n for n in [] | range:0:10">
                     </select>
+                    <div ng-if="!ordersOpen" class="well" style="text-align:center">{{orderInput[photoNum]}} exemplaire(s) commandé(s)</div>
                 </div>
             </div>
         </div>
     </div>
     <hr>
-    <div class="row">
+    <div class="row" ng-if="ordersOpen">
         <div class="col-md-12" style="margin-bottom:20px; text-align:center">
             <p>Nombre de photos choisies : <b>{{totalPhotos()}}</b>
                 <br> Montant à donner à ton responsable de groupe : <b>{{totalEuros() | currency:''}}</b>&nbsp;€</p>
-            <btn ng-if="!modifyOrder" href="" class="btn btn-success" ng-disabled="totalPhotos() <= 0" ng-click="submitOrder()">Valider</btn>
-            <btn ng-if="modifyOrder" href="" class="btn btn-success" ng-disabled="totalPhotos() <= 0" ng-click="submitOrder()">Valider la modification</btn>
+            <div>
+                <button ng-if="!modifyOrder" href="" class="btn btn-success" ng-disabled="totalPhotos() <= 0" ng-click="submitOrder()">Valider</button>
+                <button ng-if="modifyOrder" href="" class="btn btn-success" 
+                ng-disabled="!canSubmitOrder() || totalPhotos() < 0 " ng-click="submitOrder()">Valider la modification</button>
+            </div>
         </div>
     </div>
 </div>
