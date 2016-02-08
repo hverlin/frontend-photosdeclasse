@@ -255,7 +255,7 @@ photosApp.controller('dashboardCtrl', ['$scope', 'groupService', '$filter', 'uiG
             
             if(row.entity.ordersOpen === true || row.entity.status === 'Commande en cours' || row.entity.status === 'Commande terminée' || row.entity.status === 'Argent récupéré' || row.entity.status === 'Achat des photos' || row.entity.status === 'Terminé'){
                 Notification.error("Les commandes sont en cours ou terminées, il n'est pas possible d'envoyer de nouvelles photos. Contactez le bureau en cas de soucis.");
-
+                return;
             }
 
             $state.go("photographe.upload", {
